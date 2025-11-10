@@ -1,42 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>PWRS.PICS PORTFOLIO</title>
+
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&display=swap" rel="stylesheet">
+
 <style>
 body {
   margin: 0;
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   color: white;
   text-align: center;
   overflow-x: hidden;
-  background: linear-gradient(180deg, #4cc9f0 0%, #3bb2e0 25%, #2a82b0 60%, #0a1f44 100%);
-  animation: colorShift 30s infinite alternate;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0a1f44, #113b6b, #1f6f8b, #99d8d0);
+  background-size: 400% 400%;
+  animation: gradientShift 12s ease infinite;
 }
-@keyframes colorShift {
-  0% { background: linear-gradient(180deg, #4cc9f0 0%, #3bb2e0 25%, #2a82b0 60%, #0a1f44 100%);}
-  25% { background: linear-gradient(180deg, #5ad0f5 0%, #42b5e5 25%, #338bc0 60%, #0a1f44 100%);}
-  50% { background: linear-gradient(180deg, #6ed6f8 0%, #4bbbe8 25%, #3b97c5 60%, #0a1f44 100%);}
-  75% { background: linear-gradient(180deg, #4cc9f0 0%, #3bb2e0 25%, #2a82b0 60%, #0a1f44 100%);}
-  100% { background: linear-gradient(180deg, #5ad0f5 0%, #42b5e5 25%, #338bc0 60%, #0a1f44 100%);}
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
+
 header {
   padding: 50px 20px 30px 20px;
 }
 header h1 {
-  font-size: 2.5rem;
+  font-size: 2.2rem;
   font-weight: 700;
-  color: #4cc9f0;
+  margin-bottom: 8px;
+  color: #d6f3ff; /* matches the new code */
+  letter-spacing: 1px;
+  text-shadow: 0 0 10px rgba(0,155,255,0.5);
   text-transform: uppercase;
-  margin: 0 auto;
 }
 header h2 {
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-weight: 300;
-  margin: 10px 0 20px;
   color: #ffffffdd;
+  margin-bottom: 25px;
 }
+
+/* Albums and nested albums styling */
 .albums {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -46,7 +58,7 @@ header h2 {
   margin: 0 auto;
 }
 .album {
-  background: #1f2f5f;
+  background: rgba(255,255,255,0.05);
   border-radius: 15px;
   width: 200px;
   height: 180px;
@@ -56,6 +68,7 @@ header h2 {
   cursor: pointer;
   position: relative;
   overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.2);
 }
 .album img {
   width: 100%;
@@ -73,6 +86,8 @@ header h2 {
   font-size: 1.5rem;
   margin: 0;
 }
+
+/* Modal and nested album styling */
 .modal {
   position: fixed;
   top: 0;
@@ -87,9 +102,8 @@ header h2 {
   padding: 20px 0;
   z-index: 100;
 }
-.modal:target {
-  display: flex;
-}
+.modal:target { display: flex; }
+
 .modal-content {
   width: 95%;
   max-width: 800px;
@@ -109,7 +123,7 @@ header h2 {
   margin: 0 auto;
 }
 .nested-albums a {
-  background: #2a3b6f;
+  background: rgba(255,255,255,0.05);
   border-radius: 12px;
   color: white;
   text-decoration: none;
@@ -120,6 +134,7 @@ header h2 {
   align-items: center;
   position: relative;
   overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.2);
 }
 .nested-albums a img {
   width: 100%;
@@ -137,6 +152,7 @@ header h2 {
   font-size: 1.1rem;
   font-weight: 600;
 }
+
 .photos-grid-wrapper {
   width: 100%;
   max-height: 75vh;
@@ -156,9 +172,7 @@ header h2 {
   box-shadow: 0 4px 15px rgba(0,0,0,0.4);
   transition: transform 0.3s ease;
 }
-.photos-grid img:hover {
-  transform: scale(1.05);
-}
+.photos-grid img:hover { transform: scale(1.05); }
 .close-btn {
   position: fixed;
   top: 20px;
@@ -168,6 +182,8 @@ header h2 {
   font-weight: bold;
   z-index: 101;
 }
+
+/* Footer links */
 .footer-links {
   display: flex;
   justify-content: center;
@@ -178,17 +194,25 @@ header h2 {
 .footer-links a {
   display: inline-block;
   padding: 10px 20px;
-  background: rgba(255,255,255,0.15);
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(10px);
   border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.25);
   color: white;
   font-weight: 500;
   text-decoration: none;
   transition: 0.3s ease;
 }
 .footer-links a:hover {
-  transform: scale(1.05);
-  background: rgba(255,255,255,0.3);
+  transform: scale(1.07);
+  background: rgba(255,255,255,0.25);
 }
+footer {
+  margin-top: 40px;
+  opacity: 0.7;
+  font-size: 0.7rem;
+}
+
 @media (max-width: 430px) {
   .albums { grid-template-columns: 1fr; }
   .nested-albums { grid-template-columns: 1fr 1fr; grid-template-rows: 2fr; }
@@ -199,6 +223,7 @@ header h2 {
 </style>
 </head>
 <body>
+
 <header>
   <h1>PWRS.PICS PORTFOLIO</h1>
   <h2>Sports and Outside Photography Taken by Gregory Powers</h2>
@@ -234,5 +259,9 @@ albums.forEach(album => {
   <a href="https://www.threads.net" target="_blank">Threads</a>
   <a href="mailto:gregorypowers.photography@gmail.com">Contact Me</a>
 </section>
+
+<footer>
+  2025 @pwrs.pics
+</footer>
 </body>
 </html>
