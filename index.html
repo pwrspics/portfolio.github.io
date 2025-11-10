@@ -13,20 +13,25 @@ body {
   animation: gradientShift 12s ease infinite;
   color: white;
   text-align: center;
+  overflow-x: hidden;
 }
 header {
-  padding: 60px 20px 30px 20px;
+  padding: 50px 20px 30px 20px;
 }
 header h1 {
-  font-size: 2.8rem;
-  margin: 0 0 10px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 2.5rem;
+  font-weight: 700;
   text-transform: uppercase;
-  color: #d6f3ff;
-  text-shadow: 0 0 12px rgba(0,255,220,0.6);
+  background: linear-gradient(90deg, #4cc9f0, #0af0ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.5);
   display: inline-block;
   padding: 15px 30px;
-  border: 3px solid #4cc9f0;
+  border: 3px solid #0af0ff;
   border-radius: 15px;
+  box-sizing: border-box;
   animation: borderMove 4s linear infinite;
 }
 header h2 {
@@ -37,7 +42,7 @@ header h2 {
 }
 .albums {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: 1fr 1fr;
   gap: 20px;
   justify-items: center;
   padding: 15px;
@@ -45,7 +50,12 @@ header h2 {
 .album {
   background: rgba(255,255,255,0.1);
   border-radius: 15px;
-  padding: 30px 15px;
+  width: 90%;
+  max-width: 300px;
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
   transition: transform 0.5s ease, background 0.5s ease;
   text-decoration: none;
@@ -56,11 +66,12 @@ header h2 {
   animation: borderMove 3s linear infinite;
 }
 .album:hover {
-  transform: scale(1.08) rotate(-1deg);
+  transform: scale(1.05);
   background: rgba(255,255,255,0.25);
 }
-.album h3::after {
-  content: none;
+.album h3 {
+  font-size: 1.5rem;
+  margin: 0;
 }
 .modal {
   position: fixed;
@@ -85,48 +96,42 @@ header h2 {
   transform: scale(1);
 }
 .modal-content {
-  max-width: 95%;
-  max-height: 95vh;
+  max-width: 100%;
+  width: 400px;
   text-align: center;
   overflow-y: auto;
-  padding: 10px;
+  padding: 20px;
   margin: auto;
   animation: fadeIn 0.5s ease;
   display: flex;
   flex-direction: column;
   align-items: center;
+  box-sizing: border-box;
 }
 .nested-albums {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: 1fr 1fr;
   gap: 10px;
   margin-top: 15px;
   justify-items: center;
   width: 100%;
-  max-width: 600px;
 }
 .nested-albums a {
   background: rgba(255,255,255,0.1);
-  padding: 15px;
+  padding: 20px;
   border-radius: 12px;
   color: white;
   text-decoration: none;
-  transition: transform 0.5s ease, background 0.5s ease;
-  position: relative;
+  transition: transform 0.3s ease, background 0.3s ease;
   width: 100%;
-  text-align: center;
-}
-.nested-albums a::after {
-  content: '';
-  position: absolute;
-  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1rem;
   border: 2px solid #0af0ff;
-  border-radius: 8px;
-  animation: borderMove 4s linear infinite;
-  pointer-events: none;
 }
 .nested-albums a:hover {
-  transform: scale(1.05) rotate(1deg);
+  transform: scale(1.05);
   background: rgba(255,255,255,0.2);
 }
 .photos-grid {
@@ -143,17 +148,18 @@ header h2 {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 .photos-grid img:hover {
-  transform: scale(1.05) rotate(-1deg);
+  transform: scale(1.05);
   box-shadow: 0 8px 20px rgba(0,0,0,0.6);
 }
 .close-btn {
-  position: absolute;
-  top: 15px;
-  right: 20px;
+  position: fixed;
+  top: 10px;
+  right: 10px;
   font-size: 2rem;
   color: white;
   text-decoration: none;
   font-weight: bold;
+  z-index: 101;
 }
 .footer-links {
   display: flex;
@@ -185,17 +191,20 @@ header h2 {
   from {opacity: 0; transform: translateY(-20px);}
   to {opacity: 1; transform: translateY(0);}
 }
-@media (max-width: 500px) {
+@media (max-width: 430px) {
   .albums { grid-template-columns: 1fr; }
-  .nested-albums { grid-template-columns: 1fr 1fr; }
-  .photos-grid { grid-template-columns: 1fr 1fr 1fr; }
+  .nested-albums { grid-template-columns: 1fr 1fr; width: 100%; }
+  .photos-grid { grid-template-columns: repeat(3, 1fr); }
+  .modal-content { width: 95%; padding: 15px; }
+  .album { width: 90%; height: 130px; }
+  .nested-albums a { padding: 15px; }
 }
 </style>
 </head>
 <body>
 <header>
   <h1>PWRS.PICS PORTFOLIO</h1>
-  <h2>Sports & Fresh Air Photography by Gregory Powers</h2>
+  <h2>Sports & Outside Photography Taken by Gregory Powers</h2>
 </header>
 <section class="albums">
   <a href="#sports" class="album"><h3>Sports</h3></a>
@@ -203,8 +212,8 @@ header h2 {
 </section>
 
 <div id="sports" class="modal">
+  <a href="#" class="close-btn">&times;</a>
   <div class="modal-content">
-    <a href="#" class="close-btn">&times;</a>
     <h2>Sports Albums</h2>
     <div class="nested-albums">
       <a href="#football">Football</a>
@@ -217,8 +226,8 @@ header h2 {
   </div>
 </div>
 <div id="freshair" class="modal">
+  <a href="#" class="close-btn">&times;</a>
   <div class="modal-content">
-    <a href="#" class="close-btn">&times;</a>
     <h2>Fresh Air Albums</h2>
     <div class="nested-albums">
       <a href="#sunsets">Sunsets</a>
@@ -227,8 +236,6 @@ header h2 {
     </div>
   </div>
 </div>
-
-<!-- Smaller albums with 100 images each -->
 <script>
 const albums = ['football','basketball','baseball','track','lacrosse','ultimate','sunsets','animals','lakes'];
 albums.forEach(album => {
@@ -236,8 +243,8 @@ albums.forEach(album => {
   modal.id = album;
   modal.className = 'modal';
   modal.innerHTML = `
+    <a href='#${album==='sunsets'||album==='animals'||album==='lakes'?'freshair':'sports'}' class='close-btn'>&times;</a>
     <div class='modal-content'>
-      <a href='#${album==='sunsets'||album==='animals'||album==='lakes'?'freshair':'sports'}' class='close-btn'>&times;</a>
       <h2>${album.charAt(0).toUpperCase()+album.slice(1).replace('/',' / ')} Album</h2>
       <div class='photos-grid'>
         ${Array.from({length:100},(_,i)=>`<img src='https://via.placeholder.com/120x90?text=${album}+${i+1}' alt='${album} ${i+1}'>`).join('')}
@@ -246,10 +253,9 @@ albums.forEach(album => {
   document.body.appendChild(modal);
 });
 </script>
-
 <section class="footer-links">
-  <a href="https://www.instagram.com/pwrs.pics" target="_blank">Instagram</a>
-  <a href="https://www.threads.net/pwrs.pics" target="_blank">Threads</a>
+  <a href="https://www.instagram.com/pwrspics" target="_blank">Instagram</a>
+  <a href="https://www.threads.net" target="_blank">Threads</a>
   <a href="mailto:gregorypowers.photography@gmail.com">Contact Me</a>
 </section>
 </body>
