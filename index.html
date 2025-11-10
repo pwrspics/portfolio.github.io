@@ -5,22 +5,22 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PWRS.PICS PORTFOLIO</title>
 <style>
-<style>
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: "Montserrat", sans-serif;
-      background: linear-gradient(135deg, #0a1f44, #113b6b, #1f6f8b, #99d8d0);
-      background-size: 400% 400%;
-      animation: gradientShift 12s ease infinite;
-      color: white;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      min-height: 100vh;
-    }
-
+body {
+  margin: 0;
+  font-family: 'Montserrat', sans-serif;
+  color: white;
+  text-align: center;
+  overflow-x: hidden;
+  background: linear-gradient(180deg, #4cc9f0 0%, #3bb2e0 25%, #2a82b0 60%, #0a1f44 100%);
+  animation: colorShift 30s infinite alternate;
+}
+@keyframes colorShift {
+  0% { background: linear-gradient(180deg, #4cc9f0 0%, #3bb2e0 25%, #2a82b0 60%, #0a1f44 100%);}
+  25% { background: linear-gradient(180deg, #5ad0f5 0%, #42b5e5 25%, #338bc0 60%, #0a1f44 100%);}
+  50% { background: linear-gradient(180deg, #6ed6f8 0%, #4bbbe8 25%, #3b97c5 60%, #0a1f44 100%);}
+  75% { background: linear-gradient(180deg, #4cc9f0 0%, #3bb2e0 25%, #2a82b0 60%, #0a1f44 100%);}
+  100% { background: linear-gradient(180deg, #5ad0f5 0%, #42b5e5 25%, #338bc0 60%, #0a1f44 100%);}
+}
 header {
   padding: 50px 20px 30px 20px;
 }
@@ -91,7 +91,7 @@ header h2 {
   display: flex;
 }
 .modal-content {
-  width: 90%;
+  width: 95%;
   max-width: 800px;
   margin: 0 auto;
   text-align: center;
@@ -145,7 +145,7 @@ header h2 {
 }
 .photos-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
   gap: 5px;
   justify-items: center;
   margin: 0 auto;
@@ -192,7 +192,7 @@ header h2 {
 @media (max-width: 430px) {
   .albums { grid-template-columns: 1fr; }
   .nested-albums { grid-template-columns: 1fr 1fr; grid-template-rows: 2fr; }
-  .photos-grid { grid-template-columns: repeat(3, 1fr); }
+  .photos-grid { grid-template-columns: repeat(2, 1fr); }
   .album { width: 90%; height: 130px; }
   .nested-albums a { height: 120px; }
 }
@@ -208,34 +208,6 @@ header h2 {
   <a href="#sports" class="album"><img src="https://via.placeholder.com/300x180?text=Sports+Cover"><h3>Sports</h3></a>
   <a href="#freshair" class="album"><img src="https://via.placeholder.com/300x180?text=Fresh+Air+Cover"><h3>Fresh Air</h3></a>
 </section>
-
-<div id="sports" class="modal">
-  <a href="#" class="close-btn">&times;</a>
-  <div class="modal-content">
-    <h2>Sports Albums</h2>
-    <div class="nested-albums">
-      <a href="#football"><img src="https://via.placeholder.com/200x150?text=Football"><span>Football</span></a>
-      <a href="#basketball"><img src="https://via.placeholder.com/200x150?text=Basketball"><span>Basketball</span></a>
-      <a href="#baseball"><img src="https://via.placeholder.com/200x150?text=Baseball"><span>Baseball</span></a>
-      <a href="#track"><img src="https://via.placeholder.com/200x150?text=Track"><span>Track / XC</span></a>
-      <a href="#lacrosse"><img src="https://via.placeholder.com/200x150?text=Lacrosse"><span>Lacrosse</span></a>
-      <a href="#ultimate"><img src="https://via.placeholder.com/200x150?text=Ultimate"><span>Ultimate Frisbee</span></a>
-    </div>
-  </div>
-</div>
-
-<div id="freshair" class="modal">
-  <a href="#" class="close-btn">&times;</a>
-  <div class="modal-content">
-    <h2>Fresh Air Albums</h2>
-    <div class="nested-albums">
-      <a href="#sunsets"><img src="https://via.placeholder.com/200x150?text=Sunsets"><span>Sunsets</span></a>
-      <a href="#animals"><img src="https://via.placeholder.com/200x150?text=Animals"><span>Animals</span></a>
-      <a href="#bigblue"><img src="https://via.placeholder.com/200x150?text=The+Big+Blue"><span>The Big Blue</span></a>
-      <a href="#holiday"><img src="https://via.placeholder.com/200x150?text=Holiday"><span>Holiday Pics</span></a>
-    </div>
-  </div>
-</div>
 
 <script>
 const albums = ['football','basketball','baseball','track','lacrosse','ultimate','sunsets','animals','bigblue','holiday'];
