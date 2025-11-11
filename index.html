@@ -58,7 +58,7 @@ h1 {
     padding: 20px;
     backdrop-filter: blur(6px);
     cursor: pointer;
-    transition: 0.25s ease, box-shadow 0.25s ease;
+    transition: 0.25s ease;
     height: 150px;
     display: flex;
     justify-content: center;
@@ -72,14 +72,6 @@ h1 {
 .album:hover {
     transform: scale(1.04);
     background: rgba(255,255,255,0.22);
-}
-
-.album:active {
-    transform: scale(1.03);
-}
-
-.album.nested:hover {
-    box-shadow: 0 0 14px rgba(0,200,255,0.4);
 }
 
 .back-btn {
@@ -99,7 +91,7 @@ h1 {
 .home-btn {
     position: fixed;
     top: 20px;
-    right: 20px;
+    left: 20px;
     padding: 10px 14px;
     font-size: 1rem;
     color: #d6f3ff;
@@ -112,6 +104,7 @@ h1 {
     transition: 0.25s ease;
     z-index: 9999;
 }
+
 .home-btn:hover {
     background: rgba(255,255,255,0.28);
     transform: scale(1.04);
@@ -131,6 +124,15 @@ h1 {
     background: linear-gradient(90deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.15) 50%, rgba(255,255,255,0.05) 100%);
     background-size: 200% 100%;
     animation: shimmerMove 1.2s infinite;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.2s ease;
+}
+
+.shimmer:active {
+    transform: scale(1.05);
 }
 
 @keyframes shimmerMove {
@@ -149,10 +151,77 @@ h1 {
 
 .page { display: none; }
 #main-page { display: block; }
+
+/* Enlarged photo overlay */
+#enlarged-photo {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.85);
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+    color: white;
+    flex-direction: column;
+    text-align: center;
+    padding: 10px;
+    box-sizing: border-box;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+#enlarged-photo.show {
+    display: flex;
+    opacity: 1;
+}
+
+#enlarged-photo div {
+    background: rgba(255,255,255,0.12);
+    border-radius: 12px;
+    padding: 15px;
+    font-size: 1.2rem;
+    text-shadow: 0 0 6px rgba(0,155,255,0.35);
+    max-width: 70%;
+    word-wrap: break-word;
+}
+
+#enlarged-photo button {
+    margin-top: 20px;
+    padding: 10px 14px;
+    font-size: 1rem;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    background: rgba(255,255,255,0.25);
+    color: #d6f3ff;
+    text-shadow: 0 0 6px rgba(0,155,255,0.35);
+}
+
+#enlarged-photo button:hover {
+    background: rgba(255,255,255,0.35);
+}
+
+/* Responsive scaling */
+@media(max-width: 800px){
+    #enlarged-photo div { max-width: 85%; font-size: 1.1rem; }
+}
+@media(max-width: 500px){
+    h1 { font-size: 1.6rem; }
+    .album { font-size: 1rem; padding: 16px; height: 130px; }
+    .home-btn, .back-btn { font-size: 0.9rem; padding: 8px 12px; }
+    #enlarged-photo div { max-width: 90%; font-size: 1rem; }
+}
 </style>
 </head>
+
 <body>
 <h1>PWRS.PICS PORTFOLIO</h1>
+
+<!-- Back to Home Page Button -->
+<a href="YOUR_PAGE_LINK_HERE" class="home-btn">Back to Home Page</a>
 
 <div class="page-container">
 
@@ -163,38 +232,37 @@ h1 {
             <div class="album" onclick="openPage('outside-page')">Outside Scenery</div>
             <div class="album" onclick="openPage('private-page')" style="grid-column: span 2;">Private Requests</div>
         </div>
-        <a href="YOUR_PAGE_LINK_HERE" class="home-btn">Back to Home Page</a>
     </div>
 
     <!-- SPORTS PAGE -->
     <div class="page" id="sports-page">
         <div class="album-grid">
-            <div class="album nested" onclick="openAlbum('Football')">Football</div>
-            <div class="album nested" onclick="openAlbum('Basketball')">Basketball</div>
-            <div class="album nested" onclick="openAlbum('Baseball')">Baseball</div>
-            <div class="album nested" onclick="openAlbum('Track')">Track/Cross Country</div>
-            <div class="album nested" onclick="openAlbum('Lacrosse')">Lacrosse</div>
-            <div class="album nested" onclick="openAlbum('Frisbee')">Ultimate Frisbee</div>
+            <div class="album" onclick="openAlbum('Football')">Football</div>
+            <div class="album" onclick="openAlbum('Basketball')">Basketball</div>
+            <div class="album" onclick="openAlbum('Baseball')">Baseball</div>
+            <div class="album" onclick="openAlbum('Track')">Track/Cross Country</div>
+            <div class="album" onclick="openAlbum('Lacrosse')">Lacrosse</div>
+            <div class="album" onclick="openAlbum('Frisbee')">Ultimate Frisbee</div>
         </div>
     </div>
 
     <!-- OUTSIDE SCENERY PAGE -->
     <div class="page" id="outside-page">
         <div class="album-grid">
-            <div class="album nested" onclick="openAlbum('Sunsets')">Sunsets</div>
-            <div class="album nested" onclick="openAlbum('Animals')">Animals</div>
-            <div class="album nested" onclick="openAlbum('Hydro')">Hydro Photography</div>
-            <div class="album nested" onclick="openAlbum('Night')">Night Shots</div>
+            <div class="album" onclick="openAlbum('Sunsets')">Sunsets</div>
+            <div class="album" onclick="openAlbum('Animals')">Animals</div>
+            <div class="album" onclick="openAlbum('Hydro')">Hydro Photography</div>
+            <div class="album" onclick="openAlbum('Night')">Night Shots</div>
         </div>
     </div>
 
     <!-- PRIVATE REQUESTS PAGE -->
     <div class="page" id="private-page">
         <div class="album-grid">
-            <div class="album nested" onclick="openAlbum('MustBook1')">Must Book</div>
-            <div class="album nested" onclick="openAlbum('MustBook2')">Must Book</div>
-            <div class="album nested" onclick="openAlbum('MustBook3')">Must Book</div>
-            <div class="album nested" onclick="openAlbum('MustBook4')">Must Book</div>
+            <div class="album" onclick="openAlbum('MustBook1')">Must Book</div>
+            <div class="album" onclick="openAlbum('MustBook2')">Must Book</div>
+            <div class="album" onclick="openAlbum('MustBook3')">Must Book</div>
+            <div class="album" onclick="openAlbum('MustBook4')">Must Book</div>
         </div>
     </div>
 
@@ -207,14 +275,20 @@ h1 {
 
 <button class="back-btn" onclick="goBack()">✕</button>
 
+<!-- Enlarged photo overlay -->
+<div id="enlarged-photo">
+    <div>Photo Unavailable</div>
+    <button onclick="closeEnlarged()">Close</button>
+</div>
+
 <script>
 let historyStack = [];
 
 function openPage(id) {
     document.querySelectorAll('.page').forEach(p => p.style.display = "none");
     document.getElementById(id).style.display = "block";
-    document.querySelector('.back-btn').style.display = (id === 'main-page') ? 'none' : 'block';
-    if (id !== 'main-page') historyStack.push(id);
+    document.querySelector('.back-btn').style.display = id === 'main-page' ? 'none' : 'block';
+    historyStack.push(id);
 }
 
 function openAlbum(albumName) {
@@ -223,6 +297,7 @@ function openAlbum(albumName) {
     document.getElementById("images-page").style.display = "block";
     document.querySelector('.back-btn').style.display = "block";
     historyStack.push("images-page");
+
     setTimeout(() => loadRealImages(albumName), 500);
 }
 
@@ -232,7 +307,8 @@ function buildShimmerGrid(albumName) {
     let count = albumName.startsWith("MustBook") ? 15 : 150;
     for (let i = 0; i < count; i++) {
         const shimmer = document.createElement("div");
-        shimmer.classList.add("shimmer");
+        shimmer.classList.add("shimmer", "fade-in");
+        shimmer.onclick = () => showEnlarged(shimmer);
         container.appendChild(shimmer);
     }
 }
@@ -241,11 +317,11 @@ function loadRealImages(albumName) {
     const container = document.getElementById("image-grid");
     container.innerHTML = "";
     let count = albumName.startsWith("MustBook") ? 15 : 150;
-    for (let i = 1; i <= count; i++) {
-        const img = document.createElement("div");
-        img.classList.add("shimmer", "fade-in");
-        img.style.background = "rgba(255,255,255,0.15)";
-        container.appendChild(img);
+    for (let i = 0; i < count; i++) {
+        const slot = document.createElement("div");
+        slot.classList.add("shimmer", "fade-in");
+        slot.onclick = () => showEnlarged(slot);
+        container.appendChild(slot);
     }
 }
 
@@ -253,6 +329,16 @@ function goBack() {
     historyStack.pop();
     let page = historyStack.pop() || "main-page";
     openPage(page);
+}
+
+function showEnlarged(slot) {
+    const overlay = document.getElementById("enlarged-photo");
+    overlay.classList.add("show");
+}
+
+function closeEnlarged() {
+    const overlay = document.getElementById("enlarged-photo");
+    overlay.classList.remove("show");
 }
 </script>
 
