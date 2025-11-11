@@ -1,3 +1,6 @@
+Add it to this code
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -184,33 +187,19 @@
 
     function openPage(id) {
         document.querySelectorAll('.page').forEach(p => p.style.display = "none");
-        const page = document.getElementById(id);
-        page.style.display = "block";
-        document.querySelector('.back-btn').style.display = id === 'main-page' ? 'none' : 'block';
+        document.getElementById(id).style.display = "block";
+        document.querySelector('.back-btn').style.display = "block";
         historyStack.push(id);
-    (id);(id);
-    }(id);
     }
 
     function openAlbum(albumName) {
         buildShimmerGrid(albumName);
         document.querySelectorAll('.page').forEach(p => p.style.display = "none");
-        const imagesPage = document.getElementById("images-page");
-        imagesPage.style.display = "block";
-        document.querySelector('.back-btn').style.display = "block";
-        historyStack.push("images-page");
-        setTimeout(() => loadRealImages(albumName), 500);
-    ('images-page');
-        document.querySelectorAll('.page').forEach(p => p.style.display = "none");
         document.getElementById("images-page").style.display = "block";
         document.querySelector('.back-btn').style.display = "block";
-        buildShimmerGrid(albumName);
-        setTimeout(() => {
-            loadRealImages(albumName);
-        }, 400);
-    }
+        historyStack.push("images-page");
 
-    setTimeout(() => {
+        setTimeout(() => {
             loadRealImages(albumName);
         }, 500);
     }
@@ -218,7 +207,7 @@
     function buildShimmerGrid(albumName) {
         const container = document.getElementById("image-grid");
         container.innerHTML = "";
-        let count = albumName.startsWith("MustBook") ? 15 : 150;
+        let count = albumName.startsWith('MustBook') ? 30 : 150;
         for (let i = 0; i < count; i++) {
             const shimmer = document.createElement("div");
             shimmer.classList.add("shimmer");
@@ -229,14 +218,7 @@
     function loadRealImages(albumName) {
         const container = document.getElementById("image-grid");
         container.innerHTML = "";
-        let count = albumName.startsWith("MustBook") ? 15 : 150;
-        for (let i = 1; i <= count; i++) {
-            const img = document.createElement("div");
-            img.classList.add("shimmer", "fade-in");
-            img.style.background = "rgba(255,255,255,0.15)";(albumName) {
-        const container = document.getElementById("image-grid");
-        container.innerHTML = "";
-        let count = albumName.startsWith('MustBook') ? 15 : 150;
+        let count = albumName.startsWith('MustBook') ? 30 : 150;
         for (let i = 1; i <= count; i++) {
             const img = document.createElement("div");
             img.classList.add("shimmer", "fade-in");
