@@ -183,21 +183,24 @@
     let historyStack = [];
 
     function openPage(id) {
-        // Enable taps
-        document.querySelector('.back-btn').style.pointerEvents = "none";
         document.querySelectorAll('.page').forEach(p => p.style.display = "none");
-        document.getElementById(id).style.display = "block";
-        // Re-enable back button after page is visible
-        setTimeout(() => {
-            document.querySelector('.back-btn').style.pointerEvents = "auto";
-        }, 200);
-        document.querySelector('.back-btn').style.display = "block";
-        historyStack.push(id);(id);
+        const page = document.getElementById(id);
+        page.style.display = "block";
+        document.querySelector('.back-btn').style.display = id === 'main-page' ? 'none' : 'block';
+        historyStack.push(id);
+    (id);(id);
     }(id);
     }
 
     function openAlbum(albumName) {
-        historyStack.push('images-page');
+        buildShimmerGrid(albumName);
+        document.querySelectorAll('.page').forEach(p => p.style.display = "none");
+        const imagesPage = document.getElementById("images-page");
+        imagesPage.style.display = "block";
+        document.querySelector('.back-btn').style.display = "block";
+        historyStack.push("images-page");
+        setTimeout(() => loadRealImages(albumName), 500);
+    ('images-page');
         document.querySelectorAll('.page').forEach(p => p.style.display = "none");
         document.getElementById("images-page").style.display = "block";
         document.querySelector('.back-btn').style.display = "block";
