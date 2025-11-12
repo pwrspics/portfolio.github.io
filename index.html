@@ -21,6 +21,10 @@ body {
     overflow-x: hidden;
 }
 
+body.no-scroll {
+    overflow: hidden;
+}
+
 @keyframes gradientShift {
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
@@ -76,7 +80,6 @@ h1 {
     text-shadow: 0 0 6px rgba(0,155,255,0.35);
 }
 
-/* Subtle hover effect for main albums */
 .page#main-page .album:hover {
     transform: scale(1.05) translateY(-3px);
     background: rgba(255,255,255,0.22);
@@ -114,9 +117,9 @@ h1 {
     left: 15px;
     font-size: 1.8rem;
     background: rgba(255,255,255,0.25);
-    border-radius: 50%;
+    border-radius: 6px; /* rectangular outline */
     padding: 8px 12px;
-    border: 1px solid rgba(255,255,255,0.8);
+    border: 2px solid rgba(255,255,255,0.8);
     cursor: pointer;
     z-index: 9999;
     display: none;
@@ -157,7 +160,6 @@ h1 {
     transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* New hover effect for image slots */
 .shimmer:hover {
     transform: scale(1.03);
     background: rgba(255,255,255,0.18);
@@ -243,11 +245,16 @@ h1 {
     background: rgba(255,255,255,0.35);
     transform: scale(1.03);
 }
+
+.footer-note {
+    margin-top: 20px;
+    font-size: 0.85rem;
+    color: rgba(214,243,255,0.7);
+}
 </style>
 </head>
-
-<body>
-<h1>PWRS.PICS<br><span class="subtitle">PORTFOLIO</span></h1>
+<body class="no-scroll">
+<h1 id="main-title">PWRS.PICS<br><span class="subtitle">PORTFOLIO</span></h1>
 
 <!-- Main page back arrow -->
 <button class="back-btn" onclick="window.location.href='https://pwrspics.github.io'">←</button>
@@ -259,10 +266,11 @@ h1 {
     <!-- MAIN PAGE -->
     <div class="page active" id="main-page">
         <div class="album-grid">
-            <div class="album" onclick="openPage('sports-page')">Sports</div>
-            <div class="album" onclick="openPage('outside-page')">Outside Scenery</div>
-            <div class="album" onclick="openPage('private-page')" style="grid-column: span 2;">Private Requests</div>
+            <div class="album" onclick="openPage('sports-page','Sports')">Sports</div>
+            <div class="album" onclick="openPage('outdoors-page','Outdoors')">Outdoors</div>
+            <div class="album" onclick="openPage('private-page','Private Requests')" style="grid-column: span 2;">Private Requests</div>
         </div>
+        <div class="footer-note">© 2025 PWRS.PICS</div>
     </div>
 
     <!-- SPORTS PAGE -->
@@ -275,16 +283,18 @@ h1 {
             <div class="album" onclick="openAlbum('Lacrosse')">Lacrosse</div>
             <div class="album" onclick="openAlbum('Frisbee')">Ultimate Frisbee</div>
         </div>
+        <div class="footer-note">© 2025 PWRS.PICS</div>
     </div>
 
-    <!-- OUTSIDE SCENERY PAGE -->
-    <div class="page" id="outside-page">
+    <!-- OUTDOORS PAGE -->
+    <div class="page" id="outdoors-page">
         <div class="album-grid">
             <div class="album" onclick="openAlbum('Sunsets')">Sunsets</div>
             <div class="album" onclick="openAlbum('Animals')">Animals</div>
             <div class="album" onclick="openAlbum('Hydro')">Hydro Photography</div>
             <div class="album" onclick="openAlbum('Night')">Night Shots</div>
         </div>
+        <div class="footer-note">© 2025 PWRS.PICS</div>
     </div>
 
     <!-- PRIVATE REQUESTS PAGE -->
@@ -295,6 +305,7 @@ h1 {
             <div class="album" onclick="openAlbum('MustBook3')">Must Book</div>
             <div class="album" onclick="openAlbum('MustBook4')">Must Book</div>
         </div>
+        <div class="footer-note">© 2025 PWRS.PICS</div>
     </div>
 
     <!-- IMAGES PAGE -->
@@ -305,14 +316,24 @@ h1 {
 
 <script>
 let historyStack = [];
+let titleStack = [];
 
-function openPage(id) {
+function openPage(id, title) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     const page = document.getElementById(id);
     page.classList.add('active');
 
     document.querySelector('.back-btn').style.display = id === 'main-page' ? 'block' : 'none';
     document.querySelector('.x-btn').style.display = id === 'main-page' ? 'none' : 'block';
+
+    // Update title
+    if(title){
+        titleStack.push(document.getElementById('main-title').innerHTML);
+        document.getElementById('main-title').innerHTML = `PWRS.PICS<br><span class="subtitle">${title}</span>`;
+    } else if(id==='main-page'){
+        document.getElementById('main-title').innerHTML = `PWRS.PICS<br><span class="subtitle">PORTFOLIO</span>`;
+        titleStack = [];
+    }
 
     historyStack.push(id);
 }
@@ -324,6 +345,10 @@ function openAlbum(albumName) {
 
     document.querySelector('.back-btn').style.display = "none";
     document.querySelector('.x-btn').style.display = "block";
+
+    // Update title for nested albums
+    titleStack.push(document.getElementById('main-title').innerHTML);
+    document.getElementById('main-title').innerHTML = `PWRS.PICS<br><span class="subtitle">${albumName}</span>`;
 
     historyStack.push("images-page");
     setTimeout(() => loadRealImages(albumName), 300);
@@ -358,6 +383,11 @@ function goBack() {
     historyStack.pop();
     let page = historyStack.pop() || "main-page";
     openPage(page);
+    if(titleStack.length){
+        document.getElementById('main-title').innerHTML = titleStack.pop();
+    } else if(page==='main-page'){
+        document.getElementById('main-title').innerHTML = `PWRS.PICS<br><span class="subtitle">PORTFOLIO</span>`;
+    }
 }
 
 function openPhotoOverlay() {
