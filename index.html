@@ -35,7 +35,6 @@ h1 {
     text-shadow: 0 0 10px rgba(0,155,255,0.5);
     letter-spacing: 1px;
     line-height: 1.2em;
-    transition: opacity 0.4s ease;
 }
 
 .subtitle {
@@ -77,6 +76,7 @@ h1 {
     text-shadow: 0 0 6px rgba(0,155,255,0.35);
 }
 
+/* Subtle hover effect for main albums */
 .page#main-page .album:hover {
     transform: scale(1.05) translateY(-3px);
     background: rgba(255,255,255,0.22);
@@ -88,33 +88,41 @@ h1 {
     background: rgba(255,255,255,0.22);
 }
 
-button {
-    font-family: "Montserrat", sans-serif;
-}
-
+/* ✅ Unified button style */
 .back-btn, .x-btn {
     position: fixed;
     top: 15px;
     left: 15px;
-    font-size: 1.2rem;
     background: rgba(255,255,255,0.18);
     border: 2px solid rgba(255,255,255,0.35);
     border-radius: 6px;
     padding: 8px 12px;
     cursor: pointer;
     z-index: 9999;
-    transition: transform 0.2s ease, background 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     height: 40px;
     width: 45px;
+    transition: transform 0.2s ease, background 0.2s ease;
+    text-align: center;
+    line-height: 1;
+}
+
+/* Slight icon size adjustment for balance */
+.back-btn {
+    font-size: 1.4rem;
+}
+
+.x-btn {
+    font-size: 1.3rem;
+    display: none;
 }
 
 .back-btn:hover, .x-btn:hover {
     transform: scale(1.08);
     background: rgba(255,255,255,0.28);
 }
-
-.back-btn { display: block; }
-.x-btn { display: none; }
 
 .image-grid {
     display: grid;
@@ -145,6 +153,7 @@ button {
     transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
 }
 
+/* New hover effect for image slots */
 .shimmer:hover {
     transform: scale(1.03);
     background: rgba(255,255,255,0.18);
@@ -176,15 +185,6 @@ button {
     display: block;
     opacity: 1;
     transform: scale(1);
-}
-
-footer {
-    margin-top: 20px;
-    padding: 15px 0;
-    font-size: 0.9rem;
-    color: rgba(255,255,255,0.7);
-    text-align: center;
-    animation: fadeIn 1s ease;
 }
 
 .photo-overlay {
@@ -243,7 +243,7 @@ footer {
 </head>
 
 <body>
-<h1 id="page-title">PWRS.PICS<br><span class="subtitle">PORTFOLIO</span></h1>
+<h1>PWRS.PICS<br><span class="subtitle">PORTFOLIO</span></h1>
 
 <!-- Main page back arrow -->
 <button class="back-btn" onclick="window.location.href='https://pwrspics.github.io'">←</button>
@@ -255,11 +255,10 @@ footer {
     <!-- MAIN PAGE -->
     <div class="page active" id="main-page">
         <div class="album-grid">
-            <div class="album" onclick="openPage('sports-page', 'SPORTS')">Sports</div>
-            <div class="album" onclick="openPage('outside-page', 'OUTDOORS')">Outdoors</div>
-            <div class="album" onclick="openPage('private-page', 'PRIVATE REQUESTS')" style="grid-column: span 2;">Private Requests</div>
+            <div class="album" onclick="openPage('sports-page')">Sports</div>
+            <div class="album" onclick="openPage('outside-page')">Outdoors</div>
+            <div class="album" onclick="openPage('private-page')" style="grid-column: span 2;">Private Requests</div>
         </div>
-        <footer>© PWRS.PICS</footer>
     </div>
 
     <!-- SPORTS PAGE -->
@@ -268,11 +267,10 @@ footer {
             <div class="album" onclick="openAlbum('Football')">Football</div>
             <div class="album" onclick="openAlbum('Basketball')">Basketball</div>
             <div class="album" onclick="openAlbum('Baseball')">Baseball</div>
-            <div class="album" onclick="openAlbum('Track/Cross Country')">Track/Cross Country</div>
+            <div class="album" onclick="openAlbum('Track')">Track/Cross Country</div>
             <div class="album" onclick="openAlbum('Lacrosse')">Lacrosse</div>
-            <div class="album" onclick="openAlbum('Ultimate Frisbee')">Ultimate Frisbee</div>
+            <div class="album" onclick="openAlbum('Frisbee')">Ultimate Frisbee</div>
         </div>
-        <footer>© PWRS.PICS</footer>
     </div>
 
     <!-- OUTDOORS PAGE -->
@@ -280,21 +278,19 @@ footer {
         <div class="album-grid">
             <div class="album" onclick="openAlbum('Sunsets')">Sunsets</div>
             <div class="album" onclick="openAlbum('Animals')">Animals</div>
-            <div class="album" onclick="openAlbum('Hydro Photography')">Hydro Photography</div>
-            <div class="album" onclick="openAlbum('Night Shots')">Night Shots</div>
+            <div class="album" onclick="openAlbum('Hydro')">Hydro Photography</div>
+            <div class="album" onclick="openAlbum('Night')">Night Shots</div>
         </div>
-        <footer>© PWRS.PICS</footer>
     </div>
 
     <!-- PRIVATE REQUESTS PAGE -->
     <div class="page" id="private-page">
         <div class="album-grid">
-            <div class="album" onclick="openAlbum('Must Book')">Must Book</div>
-            <div class="album" onclick="openAlbum('Must Book')">Must Book</div>
-            <div class="album" onclick="openAlbum('Must Book')">Must Book</div>
-            <div class="album" onclick="openAlbum('Must Book')">Must Book</div>
+            <div class="album" onclick="openAlbum('MustBook1')">Must Book</div>
+            <div class="album" onclick="openAlbum('MustBook2')">Must Book</div>
+            <div class="album" onclick="openAlbum('MustBook3')">Must Book</div>
+            <div class="album" onclick="openAlbum('MustBook4')">Must Book</div>
         </div>
-        <footer>© PWRS.PICS</footer>
     </div>
 
     <!-- IMAGES PAGE -->
@@ -306,25 +302,14 @@ footer {
 <script>
 let historyStack = [];
 
-function updateTitle(subtitle) {
-    const title = document.getElementById("page-title");
-    title.style.opacity = 0;
-    setTimeout(() => {
-        title.innerHTML = `PWRS.PICS<br><span class="subtitle">${subtitle}</span>`;
-        title.style.opacity = 1;
-    }, 200);
-}
-
-function openPage(id, subtitle) {
+function openPage(id) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     const page = document.getElementById(id);
     page.classList.add('active');
-    document.body.style.overflowY = id === 'main-page' ? 'hidden' : 'auto';
 
     document.querySelector('.back-btn').style.display = id === 'main-page' ? 'block' : 'none';
     document.querySelector('.x-btn').style.display = id === 'main-page' ? 'none' : 'block';
 
-    updateTitle(subtitle);
     historyStack.push(id);
 }
 
@@ -332,10 +317,10 @@ function openAlbum(albumName) {
     buildShimmerGrid(albumName);
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.getElementById("images-page").classList.add('active');
+
     document.querySelector('.back-btn').style.display = "none";
     document.querySelector('.x-btn').style.display = "block";
 
-    updateTitle(albumName.toUpperCase());
     historyStack.push("images-page");
     setTimeout(() => loadRealImages(albumName), 300);
 }
@@ -343,7 +328,7 @@ function openAlbum(albumName) {
 function buildShimmerGrid(albumName) {
     const container = document.getElementById("image-grid");
     container.innerHTML = "";
-    let count = albumName === "Must Book" ? 15 : 150;
+    let count = albumName.startsWith("MustBook") ? 15 : 150;
     for (let i = 0; i < count; i++) {
         const shimmer = document.createElement("div");
         shimmer.classList.add("shimmer");
@@ -355,7 +340,7 @@ function buildShimmerGrid(albumName) {
 function loadRealImages(albumName) {
     const container = document.getElementById("image-grid");
     container.innerHTML = "";
-    let count = albumName === "Must Book" ? 15 : 150;
+    let count = albumName.startsWith("MustBook") ? 15 : 150;
     for (let i = 0; i < count; i++) {
         const img = document.createElement("div");
         img.classList.add("shimmer", "fade-in");
@@ -367,8 +352,8 @@ function loadRealImages(albumName) {
 
 function goBack() {
     historyStack.pop();
-    let previous = historyStack.pop() || "main-page";
-    openPage(previous, previous === "main-page" ? "PORTFOLIO" : "PORTFOLIO");
+    let page = historyStack.pop() || "main-page";
+    openPage(page);
 }
 
 function openPhotoOverlay() {
