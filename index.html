@@ -17,8 +17,8 @@ body {
     animation: gradientShift 12s ease infinite;
     color: white;
     text-align: center;
-    height: 100vh;
-    overflow: hidden;
+    min-height: 100vh;
+    overflow-x: hidden;
 }
 
 @keyframes gradientShift {
@@ -29,22 +29,18 @@ body {
 
 h1 {
     font-size: 2rem;
-    margin: 25px 0 0 0;
+    margin: 25px 0 5px 0;
     font-weight: 700;
     color: #d6f3ff;
     text-shadow: 0 0 10px rgba(0,155,255,0.5);
     letter-spacing: 1px;
     line-height: 1.2em;
-    text-transform: uppercase;
 }
 
 .subtitle {
     font-size: 2rem;
-    font-weight: 700;
-    text-transform: uppercase;
     display:block;
     margin-top: 0.2em;
-    color: #d6f3ff;
 }
 
 .page-container {
@@ -52,8 +48,6 @@ h1 {
     max-width: 430px;
     margin: 0 auto 20px auto;
     padding-top: 10px;
-    height: calc(100vh - 150px);
-    overflow-y: auto;
 }
 
 .album-grid {
@@ -82,7 +76,6 @@ h1 {
     text-shadow: 0 0 6px rgba(0,155,255,0.35);
 }
 
-/* Subtle hover effect for main albums */
 .page#main-page .album:hover {
     transform: scale(1.05) translateY(-3px);
     background: rgba(255,255,255,0.22);
@@ -94,30 +87,37 @@ h1 {
     background: rgba(255,255,255,0.22);
 }
 
-.back-btn,
-.x-btn {
+.back-btn, .x-btn {
     position: fixed;
     top: 15px;
     left: 15px;
-    font-size: 1.2rem;
+    font-size: 1.5rem;
     background: rgba(255,255,255,0.18);
     border: 2px solid rgba(255,255,255,0.35);
     border-radius: 6px;
     padding: 8px 12px;
     cursor: pointer;
     z-index: 9999;
-    display: block;
-    transition: transform 0.2s ease, background 0.2s ease;
+    display: none;
+    transition: transform 0.2s ease, background 0.2s ease, opacity 0.4s ease, box-shadow 0.4s ease;
+    opacity: 0;
+    animation: buttonGlow 2.5s ease-in-out infinite;
 }
 
-.back-btn:hover,
-.x-btn:hover {
+.back-btn.show, .x-btn.show {
+    display: block;
+    opacity: 1;
+}
+
+.back-btn:hover, .x-btn:hover {
     transform: scale(1.08);
     background: rgba(255,255,255,0.28);
+    box-shadow: 0 0 12px rgba(0,155,255,0.5);
 }
 
-.x-btn {
-    display: none;
+@keyframes buttonGlow {
+    0%, 100% { box-shadow: 0 0 6px rgba(0,155,255,0.35); }
+    50% { box-shadow: 0 0 14px rgba(0,155,255,0.5); }
 }
 
 .image-grid {
@@ -149,7 +149,6 @@ h1 {
     transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* New hover effect for image slots */
 .shimmer:hover {
     transform: scale(1.03);
     background: rgba(255,255,255,0.18);
@@ -161,35 +160,11 @@ h1 {
     100% { background-position: 200% 0; }
 }
 
-.fade-in {
-    opacity: 0;
-    animation: fadeIn 0.6s forwards;
-}
+.fade-in { opacity: 0; animation: fadeIn 0.6s forwards; }
+@keyframes fadeIn { to { opacity: 1; } }
 
-@keyframes fadeIn {
-    to { opacity: 1; }
-}
-
-.page {
-    display: none;
-    opacity: 0;
-    transform: scale(0.98);
-    transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-.page.active {
-    display: block;
-    opacity: 1;
-    transform: scale(1);
-}
-
-.footer {
-    position: relative;
-    text-align: center;
-    color: rgba(214,243,255,0.75);
-    font-size: 0.9rem;
-    margin-top: 20px;
-}
+.page { display: none; opacity: 0; transform: scale(0.98); transition: opacity 0.3s ease, transform 0.3s ease; }
+.page.active { display: block; opacity: 1; transform: scale(1); }
 
 .photo-overlay {
     display: none;
@@ -205,10 +180,7 @@ h1 {
     animation: fadeInOverlay 0.3s forwards;
 }
 
-@keyframes fadeInOverlay {
-    from {opacity: 0;}
-    to {opacity: 1;}
-}
+@keyframes fadeInOverlay { from {opacity:0;} to {opacity:1;} }
 
 .photo-message {
     background: rgba(255,255,255,0.12);
@@ -239,10 +211,15 @@ h1 {
     transition: 0.2s;
 }
 
-.close-photo-btn:hover {
-    background: rgba(255,255,255,0.35);
-    transform: scale(1.03);
+.close-photo-btn:hover { background: rgba(255,255,255,0.35); transform: scale(1.03); }
+
+footer {
+    text-align:center;
+    font-size:0.85rem;
+    color: rgba(255,255,255,0.6);
+    margin-top: 20px;
 }
+
 </style>
 </head>
 
@@ -250,55 +227,55 @@ h1 {
 <h1 id="main-title">PWRS.PICS<br><span class="subtitle">PORTFOLIO</span></h1>
 
 <!-- Main page back arrow -->
-<button class="back-btn" onclick="window.location.href='https://pwrspics.github.io'">←</button>
+<button id="back-arrow" class="back-btn show" onclick="window.location.href='https://pwrspics.github.io'">←</button>
 
 <!-- X button for other pages -->
-<button class="x-btn" onclick="goBack()">✕</button>
+<button class="x-btn" id="x-btn" onclick="goBack()">✕</button>
 
 <div class="page-container">
     <!-- MAIN PAGE -->
     <div class="page active" id="main-page">
         <div class="album-grid">
-            <div class="album" onclick="openPage('sports-page','SPORTS')">Sports</div>
-            <div class="album" onclick="openPage('outside-page','OUTDOORS')">Outdoors</div>
-            <div class="album" onclick="openPage('private-page','PRIVATE REQUESTS')" style="grid-column: span 2;">Private Requests</div>
+            <div class="album" onclick="openPage('sports-page','Sports')">Sports</div>
+            <div class="album" onclick="openPage('outdoors-page','Outdoors')">Outdoors</div>
+            <div class="album" onclick="openPage('private-page','Private Requests')" style="grid-column: span 2;">Private Requests</div>
         </div>
-        <div class="footer">© 2025 PWRS.PICS</div>
+        <div class="footer-space" style="height:30px;"></div>
     </div>
 
     <!-- SPORTS PAGE -->
     <div class="page" id="sports-page">
         <div class="album-grid">
-            <div class="album" onclick="openAlbum('Football')">Football</div>
-            <div class="album" onclick="openAlbum('Basketball')">Basketball</div>
-            <div class="album" onclick="openAlbum('Baseball')">Baseball</div>
-            <div class="album" onclick="openAlbum('Track')">Track/Cross Country</div>
-            <div class="album" onclick="openAlbum('Lacrosse')">Lacrosse</div>
-            <div class="album" onclick="openAlbum('Frisbee')">Ultimate Frisbee</div>
+            <div class="album" onclick="openAlbum('Football','Football')">Football</div>
+            <div class="album" onclick="openAlbum('Basketball','Basketball')">Basketball</div>
+            <div class="album" onclick="openAlbum('Baseball','Baseball')">Baseball</div>
+            <div class="album" onclick="openAlbum('Track','Track/Cross Country')">Track/Cross Country</div>
+            <div class="album" onclick="openAlbum('Lacrosse','Lacrosse')">Lacrosse</div>
+            <div class="album" onclick="openAlbum('Frisbee','Ultimate Frisbee')">Ultimate Frisbee</div>
         </div>
-        <div class="footer">© 2025 PWRS.PICS</div>
+        <div class="footer-space" style="height:30px;"></div>
     </div>
 
     <!-- OUTDOORS PAGE -->
-    <div class="page" id="outside-page">
+    <div class="page" id="outdoors-page">
         <div class="album-grid">
-            <div class="album" onclick="openAlbum('Sunsets')">Sunsets</div>
-            <div class="album" onclick="openAlbum('Animals')">Animals</div>
-            <div class="album" onclick="openAlbum('Hydro')">Hydro Photography</div>
-            <div class="album" onclick="openAlbum('Night')">Night Shots</div>
+            <div class="album" onclick="openAlbum('Sunsets','Sunsets')">Sunsets</div>
+            <div class="album" onclick="openAlbum('Animals','Animals')">Animals</div>
+            <div class="album" onclick="openAlbum('Hydro','Hydro Photography')">Hydro Photography</div>
+            <div class="album" onclick="openAlbum('Night','Night Shots')">Night Shots</div>
         </div>
-        <div class="footer">© 2025 PWRS.PICS</div>
+        <div class="footer-space" style="height:30px;"></div>
     </div>
 
     <!-- PRIVATE REQUESTS PAGE -->
     <div class="page" id="private-page">
         <div class="album-grid">
-            <div class="album" onclick="openAlbum('MustBook1')">Must Book</div>
-            <div class="album" onclick="openAlbum('MustBook2')">Must Book</div>
-            <div class="album" onclick="openAlbum('MustBook3')">Must Book</div>
-            <div class="album" onclick="openAlbum('MustBook4')">Must Book</div>
+            <div class="album" onclick="openAlbum('MustBook1','Must Book')">Must Book</div>
+            <div class="album" onclick="openAlbum('MustBook2','Must Book')">Must Book</div>
+            <div class="album" onclick="openAlbum('MustBook3','Must Book')">Must Book</div>
+            <div class="album" onclick="openAlbum('MustBook4','Must Book')">Must Book</div>
         </div>
-        <div class="footer">© 2025 PWRS.PICS</div>
+        <div class="footer-space" style="height:30px;"></div>
     </div>
 
     <!-- IMAGES PAGE -->
@@ -307,44 +284,44 @@ h1 {
     </div>
 </div>
 
+<footer>© 2025 PWRS.PICS</footer>
+
 <script>
 let historyStack = [];
-let currentTitle = "PWRS.PICS PORTFOLIO";
+let titleStack = [];
 
-function setTitle(newTitle) {
-    const titleEl = document.getElementById('main-title');
-    if (newTitle === "PWRS.PICS PORTFOLIO") {
-        titleEl.innerHTML = "PWRS.PICS<br><span class='subtitle'>PORTFOLIO</span>";
-    } else {
-        titleEl.innerHTML = newTitle;
-    }
-}
-
-function openPage(id, newTitlePart) {
+function openPage(id, titleName) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    const page = document.getElementById(id);
-    page.classList.add('active');
+    document.getElementById(id).classList.add('active');
 
-    document.querySelector('.back-btn').style.display = id === 'main-page' ? 'block' : 'none';
-    document.querySelector('.x-btn').style.display = id === 'main-page' ? 'none' : 'block';
-    document.body.style.overflow = id === 'main-page' ? 'hidden' : 'auto';
+    document.getElementById('back-arrow').style.display = id === 'main-page' ? 'block' : 'none';
+    document.getElementById('x-btn').style.display = id === 'main-page' ? 'none' : 'block';
 
-    currentTitle = id === 'main-page' ? "PWRS.PICS PORTFOLIO" : `PWRS.PICS ${newTitlePart}`;
-    setTitle(currentTitle);
+    // Update title
+    if(titleName) {
+        const subtitle = document.querySelector('#main-title .subtitle');
+        subtitle.innerText = titleName.toUpperCase();
+        titleStack.push(titleName.toUpperCase());
+    } else {
+        const subtitle = document.querySelector('#main-title .subtitle');
+        subtitle.innerText = 'PORTFOLIO';
+    }
 
     historyStack.push(id);
 }
 
-function openAlbum(albumName) {
+function openAlbum(albumName, displayName) {
     buildShimmerGrid(albumName);
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.getElementById("images-page").classList.add('active');
 
-    document.querySelector('.back-btn').style.display = "none";
-    document.querySelector('.x-btn').style.display = "block";
+    document.getElementById('back-arrow').style.display = "none";
+    document.getElementById('x-btn').style.display = "block";
 
-    currentTitle = `PWRS.PICS ${albumName.toUpperCase()}`;
-    setTitle(currentTitle);
+    // Update title
+    const subtitle = document.querySelector('#main-title .subtitle');
+    subtitle.innerText = displayName.toUpperCase();
+    titleStack.push(displayName.toUpperCase());
 
     historyStack.push("images-page");
     setTimeout(() => loadRealImages(albumName), 300);
@@ -377,8 +354,13 @@ function loadRealImages(albumName) {
 
 function goBack() {
     historyStack.pop();
+    titleStack.pop();
     let page = historyStack.pop() || "main-page";
-    openPage(page, page === "main-page" ? "PORTFOLIO" : "");
+    openPage(page);
+
+    // Revert title
+    const subtitle = document.querySelector('#main-title .subtitle');
+    subtitle.innerText = titleStack.pop() || 'PORTFOLIO';
 }
 
 function openPhotoOverlay() {
