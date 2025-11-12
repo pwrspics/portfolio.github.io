@@ -21,10 +21,6 @@ body {
     overflow-x: hidden;
 }
 
-body.no-scroll {
-    overflow: hidden;
-}
-
 @keyframes gradientShift {
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
@@ -39,6 +35,7 @@ h1 {
     text-shadow: 0 0 10px rgba(0,155,255,0.5);
     letter-spacing: 1px;
     line-height: 1.2em;
+    transition: opacity 0.4s ease;
 }
 
 .subtitle {
@@ -91,25 +88,33 @@ h1 {
     background: rgba(255,255,255,0.22);
 }
 
+button {
+    font-family: "Montserrat", sans-serif;
+}
+
 .back-btn, .x-btn {
     position: fixed;
     top: 15px;
     left: 15px;
-    font-size: 1.4rem;
+    font-size: 1.2rem;
     background: rgba(255,255,255,0.18);
     border: 2px solid rgba(255,255,255,0.35);
     border-radius: 6px;
     padding: 8px 12px;
     cursor: pointer;
     z-index: 9999;
-    display: none;
-    transition: transform 0.2s ease, background 0.2s ease, opacity 0.3s ease;
+    transition: transform 0.2s ease, background 0.2s ease;
+    height: 40px;
+    width: 45px;
 }
 
 .back-btn:hover, .x-btn:hover {
     transform: scale(1.08);
     background: rgba(255,255,255,0.28);
 }
+
+.back-btn { display: block; }
+.x-btn { display: none; }
 
 .image-grid {
     display: grid;
@@ -173,6 +178,15 @@ h1 {
     transform: scale(1);
 }
 
+footer {
+    margin-top: 20px;
+    padding: 15px 0;
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.7);
+    text-align: center;
+    animation: fadeIn 1s ease;
+}
+
 .photo-overlay {
     display: none;
     position: fixed;
@@ -225,69 +239,62 @@ h1 {
     background: rgba(255,255,255,0.35);
     transform: scale(1.03);
 }
-
-footer {
-    font-size: 0.85rem;
-    color: #d6f3ff;
-    margin-top: 20px;
-    opacity: 0.7;
-}
 </style>
 </head>
 
-<body class="no-scroll">
-<h1 id="main-title">PWRS.PICS<br><span class="subtitle" id="sub-title">PORTFOLIO</span></h1>
+<body>
+<h1 id="page-title">PWRS.PICS<br><span class="subtitle">PORTFOLIO</span></h1>
 
-<!-- Main page arrow -->
-<button class="back-btn" id="arrow-btn" onclick="window.location.href='https://pwrspics.github.io'">←</button>
+<!-- Main page back arrow -->
+<button class="back-btn" onclick="window.location.href='https://pwrspics.github.io'">←</button>
 
 <!-- X button for other pages -->
-<button class="x-btn" id="x-btn" onclick="goBack()">←</button>
+<button class="x-btn" onclick="goBack()">✕</button>
 
 <div class="page-container">
     <!-- MAIN PAGE -->
     <div class="page active" id="main-page">
         <div class="album-grid">
-            <div class="album" onclick="openPage('sports-page', this)">Sports</div>
-            <div class="album" onclick="openPage('outdoors-page', this)">Outdoors</div>
-            <div class="album" onclick="openPage('private-page', this)" style="grid-column: span 2;">Private Requests</div>
+            <div class="album" onclick="openPage('sports-page', 'SPORTS')">Sports</div>
+            <div class="album" onclick="openPage('outside-page', 'OUTDOORS')">Outdoors</div>
+            <div class="album" onclick="openPage('private-page', 'PRIVATE REQUESTS')" style="grid-column: span 2;">Private Requests</div>
         </div>
-        <div style="height:50px;"></div>
+        <footer>© PWRS.PICS</footer>
     </div>
 
     <!-- SPORTS PAGE -->
     <div class="page" id="sports-page">
         <div class="album-grid">
-            <div class="album" onclick="openAlbum('Football', this)">Football</div>
-            <div class="album" onclick="openAlbum('Basketball', this)">Basketball</div>
-            <div class="album" onclick="openAlbum('Baseball', this)">Baseball</div>
-            <div class="album" onclick="openAlbum('Track', this)">Track/Cross Country</div>
-            <div class="album" onclick="openAlbum('Lacrosse', this)">Lacrosse</div>
-            <div class="album" onclick="openAlbum('Frisbee', this)">Ultimate Frisbee</div>
+            <div class="album" onclick="openAlbum('Football')">Football</div>
+            <div class="album" onclick="openAlbum('Basketball')">Basketball</div>
+            <div class="album" onclick="openAlbum('Baseball')">Baseball</div>
+            <div class="album" onclick="openAlbum('Track/Cross Country')">Track/Cross Country</div>
+            <div class="album" onclick="openAlbum('Lacrosse')">Lacrosse</div>
+            <div class="album" onclick="openAlbum('Ultimate Frisbee')">Ultimate Frisbee</div>
         </div>
-        <div style="height:50px;"></div>
+        <footer>© PWRS.PICS</footer>
     </div>
 
     <!-- OUTDOORS PAGE -->
-    <div class="page" id="outdoors-page">
+    <div class="page" id="outside-page">
         <div class="album-grid">
-            <div class="album" onclick="openAlbum('Sunsets', this)">Sunsets</div>
-            <div class="album" onclick="openAlbum('Animals', this)">Animals</div>
-            <div class="album" onclick="openAlbum('Hydro', this)">Hydro Photography</div>
-            <div class="album" onclick="openAlbum('Night', this)">Night Shots</div>
+            <div class="album" onclick="openAlbum('Sunsets')">Sunsets</div>
+            <div class="album" onclick="openAlbum('Animals')">Animals</div>
+            <div class="album" onclick="openAlbum('Hydro Photography')">Hydro Photography</div>
+            <div class="album" onclick="openAlbum('Night Shots')">Night Shots</div>
         </div>
-        <div style="height:50px;"></div>
+        <footer>© PWRS.PICS</footer>
     </div>
 
     <!-- PRIVATE REQUESTS PAGE -->
     <div class="page" id="private-page">
         <div class="album-grid">
-            <div class="album" onclick="openAlbum('MustBook1', this)">Must Book</div>
-            <div class="album" onclick="openAlbum('MustBook2', this)">Must Book</div>
-            <div class="album" onclick="openAlbum('MustBook3', this)">Must Book</div>
-            <div class="album" onclick="openAlbum('MustBook4', this)">Must Book</div>
+            <div class="album" onclick="openAlbum('Must Book')">Must Book</div>
+            <div class="album" onclick="openAlbum('Must Book')">Must Book</div>
+            <div class="album" onclick="openAlbum('Must Book')">Must Book</div>
+            <div class="album" onclick="openAlbum('Must Book')">Must Book</div>
         </div>
-        <div style="height:50px;"></div>
+        <footer>© PWRS.PICS</footer>
     </div>
 
     <!-- IMAGES PAGE -->
@@ -296,42 +303,39 @@ footer {
     </div>
 </div>
 
-<footer>© 2025 PWRS.PICS</footer>
-
 <script>
 let historyStack = [];
-let titleStack = ['PORTFOLIO'];
 
-function openPage(id, el) {
+function updateTitle(subtitle) {
+    const title = document.getElementById("page-title");
+    title.style.opacity = 0;
+    setTimeout(() => {
+        title.innerHTML = `PWRS.PICS<br><span class="subtitle">${subtitle}</span>`;
+        title.style.opacity = 1;
+    }, 200);
+}
+
+function openPage(id, subtitle) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
+    const page = document.getElementById(id);
+    page.classList.add('active');
+    document.body.style.overflowY = id === 'main-page' ? 'hidden' : 'auto';
 
-    // Buttons
-    document.getElementById('arrow-btn').style.display = id === 'main-page' ? 'block' : 'none';
-    document.getElementById('x-btn').style.display = id === 'main-page' ? 'none' : 'block';
+    document.querySelector('.back-btn').style.display = id === 'main-page' ? 'block' : 'none';
+    document.querySelector('.x-btn').style.display = id === 'main-page' ? 'none' : 'block';
 
-    // Body scroll
-    document.body.classList.toggle('no-scroll', id==='main-page');
-
-    // Title
-    updateTitle(el.innerText);
-
+    updateTitle(subtitle);
     historyStack.push(id);
 }
 
-function openAlbum(albumName, el) {
+function openAlbum(albumName) {
     buildShimmerGrid(albumName);
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.getElementById("images-page").classList.add('active');
+    document.querySelector('.back-btn').style.display = "none";
+    document.querySelector('.x-btn').style.display = "block";
 
-    document.getElementById('arrow-btn').style.display = "none";
-    document.getElementById('x-btn').style.display = "block";
-
-    // Body scroll enabled
-    document.body.classList.remove('no-scroll');
-
-    updateTitle(el.innerText);
-
+    updateTitle(albumName.toUpperCase());
     historyStack.push("images-page");
     setTimeout(() => loadRealImages(albumName), 300);
 }
@@ -339,7 +343,7 @@ function openAlbum(albumName, el) {
 function buildShimmerGrid(albumName) {
     const container = document.getElementById("image-grid");
     container.innerHTML = "";
-    let count = albumName.startsWith("MustBook") ? 15 : 150;
+    let count = albumName === "Must Book" ? 15 : 150;
     for (let i = 0; i < count; i++) {
         const shimmer = document.createElement("div");
         shimmer.classList.add("shimmer");
@@ -351,7 +355,7 @@ function buildShimmerGrid(albumName) {
 function loadRealImages(albumName) {
     const container = document.getElementById("image-grid");
     container.innerHTML = "";
-    let count = albumName.startsWith("MustBook") ? 15 : 150;
+    let count = albumName === "Must Book" ? 15 : 150;
     for (let i = 0; i < count; i++) {
         const img = document.createElement("div");
         img.classList.add("shimmer", "fade-in");
@@ -363,9 +367,8 @@ function loadRealImages(albumName) {
 
 function goBack() {
     historyStack.pop();
-    titleStack.pop();
-    let page = historyStack.pop() || "main-page";
-    openPage(page);
+    let previous = historyStack.pop() || "main-page";
+    openPage(previous, previous === "main-page" ? "PORTFOLIO" : "PORTFOLIO");
 }
 
 function openPhotoOverlay() {
@@ -388,12 +391,6 @@ function openPhotoOverlay() {
     messageBox.appendChild(closeBtn);
     overlay.appendChild(messageBox);
     document.body.appendChild(overlay);
-}
-
-function updateTitle(newTitle) {
-    const sub = document.getElementById('sub-title');
-    titleStack.push(newTitle.toUpperCase());
-    sub.innerText = newTitle.toUpperCase();
 }
 </script>
 </body>
