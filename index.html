@@ -39,7 +39,7 @@ h1 {
 
 .subtitle {
     font-size: 2rem;
-    display:block;
+    display: block;
     margin-top: 0.2em;
 }
 
@@ -76,7 +76,6 @@ h1 {
     text-shadow: 0 0 6px rgba(0,155,255,0.35);
 }
 
-/* Subtle hover effect for main albums */
 .page#main-page .album:hover {
     transform: scale(1.05) translateY(-3px);
     background: rgba(255,255,255,0.22);
@@ -88,35 +87,23 @@ h1 {
     background: rgba(255,255,255,0.22);
 }
 
-/* ✅ Unified button style */
+button {
+    font-family: inherit;
+}
+
 .back-btn, .x-btn {
     position: fixed;
     top: 15px;
     left: 15px;
+    font-size: 1.5rem;
     background: rgba(255,255,255,0.18);
     border: 2px solid rgba(255,255,255,0.35);
-    border-radius: 6px;
-    padding: 8px 12px;
+    border-radius: 8px;
+    padding: 6px 12px;
     cursor: pointer;
     z-index: 9999;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 40px;
-    width: 45px;
-    transition: transform 0.2s ease, background 0.2s ease;
-    text-align: center;
-    line-height: 1;
-}
-
-/* Slight icon size adjustment for balance */
-.back-btn {
-    font-size: 1.4rem;
-}
-
-.x-btn {
-    font-size: 1.3rem;
     display: none;
+    transition: transform 0.2s ease, background 0.2s ease;
 }
 
 .back-btn:hover, .x-btn:hover {
@@ -130,8 +117,8 @@ h1 {
     gap: 12px;
     justify-content: center;
     max-width: 430px;
-    margin-left:auto;
-    margin-right:auto;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .shimmer {
@@ -153,7 +140,6 @@ h1 {
     transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* New hover effect for image slots */
 .shimmer:hover {
     transform: scale(1.03);
     background: rgba(255,255,255,0.18);
@@ -179,12 +165,25 @@ h1 {
     opacity: 0;
     transform: scale(0.98);
     transition: opacity 0.3s ease, transform 0.3s ease;
+    overflow-y: auto;
 }
 
 .page.active {
     display: block;
     opacity: 1;
     transform: scale(1);
+}
+
+#main-page {
+    overflow-y: hidden;
+}
+
+footer {
+    margin-top: 30px;
+    padding: 10px;
+    font-size: 0.9rem;
+    opacity: 0.8;
+    color: #c8e7ff;
 }
 
 .photo-overlay {
@@ -197,13 +196,6 @@ h1 {
     justify-content: center;
     align-items: center;
     z-index: 9999;
-    opacity: 0;
-    animation: fadeInOverlay 0.3s forwards;
-}
-
-@keyframes fadeInOverlay {
-    from {opacity: 0;}
-    to {opacity: 1;}
 }
 
 .photo-message {
@@ -216,10 +208,6 @@ h1 {
     text-align: center;
     color: #d6f3ff;
     font-weight: 600;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
 }
 
 .close-photo-btn {
@@ -243,21 +231,18 @@ h1 {
 </head>
 
 <body>
-<h1>PWRS.PICS<br><span class="subtitle">PORTFOLIO</span></h1>
+<h1 id="main-title">PWRS.PICS<br><span class="subtitle">PORTFOLIO</span></h1>
 
-<!-- Main page back arrow -->
 <button class="back-btn" onclick="window.location.href='https://pwrspics.github.io'">←</button>
-
-<!-- X button for other pages -->
 <button class="x-btn" onclick="goBack()">✕</button>
 
 <div class="page-container">
     <!-- MAIN PAGE -->
     <div class="page active" id="main-page">
         <div class="album-grid">
-            <div class="album" onclick="openPage('sports-page')">Sports</div>
-            <div class="album" onclick="openPage('outside-page')">Outdoors</div>
-            <div class="album" onclick="openPage('private-page')" style="grid-column: span 2;">Private Requests</div>
+            <div class="album" onclick="openPage('sports-page', 'Sports')">Sports</div>
+            <div class="album" onclick="openPage('outside-page', 'Outdoors')">Outdoors</div>
+            <div class="album" onclick="openPage('private-page', 'Private Requests')" style="grid-column: span 2;">Private Requests</div>
         </div>
     </div>
 
@@ -267,9 +252,9 @@ h1 {
             <div class="album" onclick="openAlbum('Football')">Football</div>
             <div class="album" onclick="openAlbum('Basketball')">Basketball</div>
             <div class="album" onclick="openAlbum('Baseball')">Baseball</div>
-            <div class="album" onclick="openAlbum('Track')">Track/Cross Country</div>
+            <div class="album" onclick="openAlbum('Track/Cross Country')">Track/Cross Country</div>
             <div class="album" onclick="openAlbum('Lacrosse')">Lacrosse</div>
-            <div class="album" onclick="openAlbum('Frisbee')">Ultimate Frisbee</div>
+            <div class="album" onclick="openAlbum('Ultimate Frisbee')">Ultimate Frisbee</div>
         </div>
     </div>
 
@@ -278,18 +263,18 @@ h1 {
         <div class="album-grid">
             <div class="album" onclick="openAlbum('Sunsets')">Sunsets</div>
             <div class="album" onclick="openAlbum('Animals')">Animals</div>
-            <div class="album" onclick="openAlbum('Hydro')">Hydro Photography</div>
-            <div class="album" onclick="openAlbum('Night')">Night Shots</div>
+            <div class="album" onclick="openAlbum('Hydro Photography')">Hydro Photography</div>
+            <div class="album" onclick="openAlbum('Night Shots')">Night Shots</div>
         </div>
     </div>
 
     <!-- PRIVATE REQUESTS PAGE -->
     <div class="page" id="private-page">
         <div class="album-grid">
-            <div class="album" onclick="openAlbum('MustBook1')">Must Book</div>
-            <div class="album" onclick="openAlbum('MustBook2')">Must Book</div>
-            <div class="album" onclick="openAlbum('MustBook3')">Must Book</div>
-            <div class="album" onclick="openAlbum('MustBook4')">Must Book</div>
+            <div class="album" onclick="openAlbum('Must Book 1')">Must Book</div>
+            <div class="album" onclick="openAlbum('Must Book 2')">Must Book</div>
+            <div class="album" onclick="openAlbum('Must Book 3')">Must Book</div>
+            <div class="album" onclick="openAlbum('Must Book 4')">Must Book</div>
         </div>
     </div>
 
@@ -299,13 +284,22 @@ h1 {
     </div>
 </div>
 
+<footer>© 2025 PWRS.PICS</footer>
+
 <script>
 let historyStack = [];
 
-function openPage(id) {
+function updateTitle(text) {
+    const title = document.getElementById("main-title");
+    title.innerHTML = `PWRS.PICS<br><span class="subtitle">${text.toUpperCase()}</span>`;
+}
+
+function openPage(id, name) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     const page = document.getElementById(id);
     page.classList.add('active');
+
+    updateTitle(name);
 
     document.querySelector('.back-btn').style.display = id === 'main-page' ? 'block' : 'none';
     document.querySelector('.x-btn').style.display = id === 'main-page' ? 'none' : 'block';
@@ -317,18 +311,18 @@ function openAlbum(albumName) {
     buildShimmerGrid(albumName);
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.getElementById("images-page").classList.add('active');
+    updateTitle(albumName);
 
     document.querySelector('.back-btn').style.display = "none";
     document.querySelector('.x-btn').style.display = "block";
 
     historyStack.push("images-page");
-    setTimeout(() => loadRealImages(albumName), 300);
 }
 
 function buildShimmerGrid(albumName) {
     const container = document.getElementById("image-grid");
     container.innerHTML = "";
-    let count = albumName.startsWith("MustBook") ? 15 : 150;
+    let count = albumName.startsWith("Must Book") ? 15 : 150;
     for (let i = 0; i < count; i++) {
         const shimmer = document.createElement("div");
         shimmer.classList.add("shimmer");
@@ -337,23 +331,21 @@ function buildShimmerGrid(albumName) {
     }
 }
 
-function loadRealImages(albumName) {
-    const container = document.getElementById("image-grid");
-    container.innerHTML = "";
-    let count = albumName.startsWith("MustBook") ? 15 : 150;
-    for (let i = 0; i < count; i++) {
-        const img = document.createElement("div");
-        img.classList.add("shimmer", "fade-in");
-        img.style.background = "rgba(255,255,255,0.15)";
-        img.onclick = () => openPhotoOverlay();
-        container.appendChild(img);
-    }
-}
-
 function goBack() {
     historyStack.pop();
-    let page = historyStack.pop() || "main-page";
-    openPage(page);
+    let prev = historyStack.pop() || "main-page";
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById(prev).classList.add('active');
+
+    if (prev === 'main-page') {
+        updateTitle("PORTFOLIO");
+        document.querySelector('.back-btn').style.display = "block";
+        document.querySelector('.x-btn').style.display = "none";
+    } else {
+        updateTitle(prev.replace('-page','').replace(/-/g,' ').toUpperCase());
+        document.querySelector('.back-btn').style.display = "none";
+        document.querySelector('.x-btn').style.display = "block";
+    }
 }
 
 function openPhotoOverlay() {
