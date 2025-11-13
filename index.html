@@ -19,6 +19,7 @@ body {
     text-align: center;
     min-height: 100vh;
     overflow-x: hidden;
+    overflow-y: hidden; /* prevents main page scrolling */
 }
 
 @keyframes gradientShift {
@@ -39,7 +40,7 @@ h1 {
 
 .subtitle {
     font-size: 2rem;
-    display: block;
+    display:block;
     margin-top: 0.2em;
 }
 
@@ -76,7 +77,6 @@ h1 {
     text-shadow: 0 0 6px rgba(0,155,255,0.35);
 }
 
-/* Subtle hover effect for main albums */
 .page#main-page .album:hover {
     transform: scale(1.05) translateY(-3px);
     background: rgba(255,255,255,0.22);
@@ -88,14 +88,34 @@ h1 {
     background: rgba(255,255,255,0.22);
 }
 
-.arrow-btn, .x-btn {
+.arrow-btn {
     position: fixed;
     top: 15px;
     left: 15px;
     font-size: 1.2rem;
     background: rgba(255,255,255,0.18);
     border: 2px solid rgba(255,255,255,0.35);
-    border-radius: 6px;
+    border-radius: 6px; /* rectangular outline */
+    padding: 8px 12px;
+    cursor: pointer;
+    z-index: 9999;
+    display: block; /* always visible on load for main page */
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.arrow-btn:hover {
+    transform: scale(1.08);
+    background: rgba(255,255,255,0.28);
+}
+
+.x-btn {
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    font-size: 1.2rem; /* same size as arrow */
+    background: rgba(255,255,255,0.18);
+    border: 2px solid rgba(255,255,255,0.35);
+    border-radius: 6px; /* same rectangular outline */
     padding: 8px 12px;
     cursor: pointer;
     z-index: 9999;
@@ -103,7 +123,7 @@ h1 {
     transition: transform 0.2s ease, background 0.2s ease;
 }
 
-.arrow-btn:hover, .x-btn:hover {
+.x-btn:hover {
     transform: scale(1.08);
     background: rgba(255,255,255,0.28);
 }
@@ -137,7 +157,6 @@ h1 {
     transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* Hover effect for image slots */
 .shimmer:hover {
     transform: scale(1.03);
     background: rgba(255,255,255,0.18);
@@ -223,26 +242,13 @@ h1 {
     background: rgba(255,255,255,0.35);
     transform: scale(1.03);
 }
-
-footer {
-    text-align: center;
-    font-size: 0.9rem;
-    color: #d6f3ff;
-    margin-top: 30px;
-    margin-bottom: 10px;
-}
-
-/* Disable scrolling on main page */
-body.main-no-scroll {
-    overflow: hidden;
-}
 </style>
 </head>
 
-<body class="main-no-scroll">
-<h1 id="main-title">PWRS.PICS<br><span class="subtitle">PORTFOLIO</span></h1>
+<body>
+<h1>PWRS.PICS<br><span class="subtitle">PORTFOLIO</span></h1>
 
-<!-- Main page arrow -->
+<!-- Arrow button on main page -->
 <button class="arrow-btn" onclick="window.location.href='https://pwrspics.github.io'">←</button>
 
 <!-- X button for other pages -->
@@ -252,46 +258,42 @@ body.main-no-scroll {
     <!-- MAIN PAGE -->
     <div class="page active" id="main-page">
         <div class="album-grid">
-            <div class="album" onclick="openPage('sports-page', this)">Sports</div>
-            <div class="album" onclick="openPage('outdoors-page', this)">Outdoors</div>
-            <div class="album" onclick="openPage('private-page', this)" style="grid-column: span 2;">Private Requests</div>
+            <div class="album" onclick="openPage('sports-page', 'Sports')">Sports</div>
+            <div class="album" onclick="openPage('outdoors-page', 'Outdoors')">Outdoors</div>
+            <div class="album" onclick="openPage('private-page', 'Private Requests')" style="grid-column: span 2;">Private Requests</div>
         </div>
-        <div class="footer-space"></div>
     </div>
 
     <!-- SPORTS PAGE -->
     <div class="page" id="sports-page">
         <div class="album-grid">
-            <div class="album" onclick="openAlbum('Football', this)">Football</div>
-            <div class="album" onclick="openAlbum('Basketball', this)">Basketball</div>
-            <div class="album" onclick="openAlbum('Baseball', this)">Baseball</div>
-            <div class="album" onclick="openAlbum('Track', this)">Track/Cross Country</div>
-            <div class="album" onclick="openAlbum('Lacrosse', this)">Lacrosse</div>
-            <div class="album" onclick="openAlbum('Frisbee', this)">Ultimate Frisbee</div>
+            <div class="album" onclick="openAlbum('Football')">Football</div>
+            <div class="album" onclick="openAlbum('Basketball')">Basketball</div>
+            <div class="album" onclick="openAlbum('Baseball')">Baseball</div>
+            <div class="album" onclick="openAlbum('Track')">Track/Cross Country</div>
+            <div class="album" onclick="openAlbum('Lacrosse')">Lacrosse</div>
+            <div class="album" onclick="openAlbum('Frisbee')">Ultimate Frisbee</div>
         </div>
-        <div class="footer-space"></div>
     </div>
 
     <!-- OUTDOORS PAGE -->
     <div class="page" id="outdoors-page">
         <div class="album-grid">
-            <div class="album" onclick="openAlbum('Sunsets', this)">Sunsets</div>
-            <div class="album" onclick="openAlbum('Animals', this)">Animals</div>
-            <div class="album" onclick="openAlbum('Hydro', this)">Hydro Photography</div>
-            <div class="album" onclick="openAlbum('Night', this)">Night Shots</div>
+            <div class="album" onclick="openAlbum('Sunsets')">Sunsets</div>
+            <div class="album" onclick="openAlbum('Animals')">Animals</div>
+            <div class="album" onclick="openAlbum('Hydro')">Hydro Photography</div>
+            <div class="album" onclick="openAlbum('Night')">Night Shots</div>
         </div>
-        <div class="footer-space"></div>
     </div>
 
     <!-- PRIVATE REQUESTS PAGE -->
     <div class="page" id="private-page">
         <div class="album-grid">
-            <div class="album" onclick="openAlbum('MustBook1', this)">Must Book</div>
-            <div class="album" onclick="openAlbum('MustBook2', this)">Must Book</div>
-            <div class="album" onclick="openAlbum('MustBook3', this)">Must Book</div>
-            <div class="album" onclick="openAlbum('MustBook4', this)">Must Book</div>
+            <div class="album" onclick="openAlbum('MustBook1')">Must Book</div>
+            <div class="album" onclick="openAlbum('MustBook2')">Must Book</div>
+            <div class="album" onclick="openAlbum('MustBook3')">Must Book</div>
+            <div class="album" onclick="openAlbum('MustBook4')">Must Book</div>
         </div>
-        <div class="footer-space"></div>
     </div>
 
     <!-- IMAGES PAGE -->
@@ -300,13 +302,16 @@ body.main-no-scroll {
     </div>
 </div>
 
-<footer>© 2025 PWRS.PICS</footer>
-
 <script>
 let historyStack = [];
-let titleStack = [];
 
-function openPage(id, el) {
+window.addEventListener('DOMContentLoaded', () => {
+    if (document.getElementById('main-page').classList.contains('active')) {
+        document.querySelector('.arrow-btn').style.display = 'block';
+    }
+});
+
+function openPage(id, albumTitle) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     const page = document.getElementById(id);
     page.classList.add('active');
@@ -314,21 +319,17 @@ function openPage(id, el) {
     document.querySelector('.arrow-btn').style.display = id === 'main-page' ? 'block' : 'none';
     document.querySelector('.x-btn').style.display = id === 'main-page' ? 'none' : 'block';
 
-    // Update title
-    if(id === 'main-page') {
-        document.getElementById('main-title').innerHTML = 'PWRS.PICS<br><span class="subtitle">PORTFOLIO</span>';
+    // Change title dynamically
+    if (id === 'main-page') {
+        document.querySelector('h1').innerHTML = 'PWRS.PICS<br><span class="subtitle">PORTFOLIO</span>';
     } else {
-        const albumName = el.innerText.toUpperCase();
-        document.getElementById('main-title').innerHTML = 'PWRS.PICS<br><span class="subtitle">' + albumName + '</span>';
+        document.querySelector('h1').innerHTML = `PWRS.PICS<br><span class="subtitle">${albumTitle.toUpperCase()}</span>`;
     }
-
-    // Handle main scroll lock
-    document.body.classList.toggle('main-no-scroll', id === 'main-page');
 
     historyStack.push(id);
 }
 
-function openAlbum(albumName, el) {
+function openAlbum(albumName) {
     buildShimmerGrid(albumName);
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.getElementById("images-page").classList.add('active');
@@ -336,12 +337,10 @@ function openAlbum(albumName, el) {
     document.querySelector('.arrow-btn').style.display = "none";
     document.querySelector('.x-btn').style.display = "block";
 
-    const displayName = el.innerText.toUpperCase();
-    document.getElementById('main-title').innerHTML = 'PWRS.PICS<br><span class="subtitle">' + displayName + '</span>';
+    // Set title to album name
+    document.querySelector('h1').innerHTML = `PWRS.PICS<br><span class="subtitle">${albumName.toUpperCase()}</span>`;
 
     historyStack.push("images-page");
-    titleStack.push(displayName);
-
     setTimeout(() => loadRealImages(albumName), 300);
 }
 
@@ -373,7 +372,7 @@ function loadRealImages(albumName) {
 function goBack() {
     historyStack.pop();
     let page = historyStack.pop() || "main-page";
-    openPage(page, {innerText: page.includes('-page') ? page.split('-')[0] : 'PORTFOLIO'});
+    openPage(page, document.querySelector(`#${page} .album`)?.innerText || 'Portfolio');
 }
 
 function openPhotoOverlay() {
