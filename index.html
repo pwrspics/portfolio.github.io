@@ -207,9 +207,9 @@ h1 {
             <div class="album" onclick="openAlbum('Football')">Football</div>
             <div class="album" onclick="openAlbum('Basketball')">Basketball</div>
             <div class="album" onclick="openAlbum('Baseball')">Baseball</div>
-            <div class="album" onclick="openAlbum('Track')">Track/Cross Country</div>
+            <div class="album" onclick="openAlbum('Track/Cross Country')">Track/Cross Country</div>
             <div class="album" onclick="openAlbum('Lacrosse')">Lacrosse</div>
-            <div class="album" onclick="openAlbum('Frisbee')">Ultimate Frisbee</div>
+            <div class="album" onclick="openAlbum('Ultimate Frisbee')">Ultimate Frisbee</div>
         </div>
     </div>
 
@@ -218,18 +218,18 @@ h1 {
         <div class="album-grid">
             <div class="album" onclick="openAlbum('Sunsets')">Sunsets</div>
             <div class="album" onclick="openAlbum('Animals')">Animals</div>
-            <div class="album" onclick="openAlbum('Hydro')">Hydro Photography</div>
-            <div class="album" onclick="openAlbum('Night')">Night Shots</div>
+            <div class="album" onclick="openAlbum('Hydro Photography')">Hydro Photography</div>
+            <div class="album" onclick="openAlbum('Night Shots')">Night Shots</div>
         </div>
     </div>
 
     <!-- PRIVATE REQUESTS PAGE -->
     <div class="page" id="private-page">
         <div class="album-grid">
-            <div class="album" onclick="openAlbum('MustBook1')">Must Book</div>
-            <div class="album" onclick="openAlbum('MustBook2')">Must Book</div>
-            <div class="album" onclick="openAlbum('MustBook3')">Must Book</div>
-            <div class="album" onclick="openAlbum('MustBook4')">Must Book</div>
+            <div class="album" onclick="openAlbum('Must Book A')">Must Book</div>
+            <div class="album" onclick="openAlbum('Must Book B')">Must Book</div>
+            <div class="album" onclick="openAlbum('Must Book C')">Must Book</div>
+            <div class="album" onclick="openAlbum('Must Book D')">Must Book</div>
         </div>
     </div>
 
@@ -251,19 +251,19 @@ const FOLDER_IDS = {
     "Sports": "1Wue8l85omJXn-_xO9PdYn0cariXbdMwx",
     "Private Requests": "1O3HmiO3-yqgW8K0plSRge8HBE45X9bvP",
     "Animals": "1e4tnwMfsC39hQM296vZVdbZ556Q93o9t",
-    "Hydro": "1HukYKViFXLKloRDwgX3X3GLmIV0YyFzn",
+    "Hydro Photography": "1HukYKViFXLKloRDwgX3X3GLmIV0YyFzn",
     "Sunsets": "14y0JpKpcIcHxeDR1eDfOFSv5m4HEuRcF",
-    "Night": "1mkKr0BoG-pvaz98HW2qjOY8I1_CIR57T",
+    "Night Shots": "1mkKr0BoG-pvaz98HW2qjOY8I1_CIR57T",
     "Football": "1CZnrl75VhSGneOPpWJ26fdESNBG4S4CB",
     "Baseball": "1nIZL73r9L6qytwoD11NfHzSR17azVSKh",
     "Basketball": "1BnqyWGwyPppOYSK5Ns3SxgAXOnZb0KfI",
     "Lacrosse": "1x-XsL3CWUpBh33Uv7HYlDKiyZxfV2k3M",
-    "Track": "1_nangpmm5RwhusoNTGNJmOeYvhpqagxd",
-    "Frisbee": "1AoCKIlQLiZD-YEhbU3NTOO-LBtcSwvxS",
-    "MustBook1": "190dh7F-7Vf5G2Q0-58ScfPD2zIiOS2AR",
-    "MustBook2": "1PYY34VVmF9M43ueMCaWQAVD6P7G6F6qK",
-    "MustBook3": "1WHMzEHy82ueGdjLa7r26WwPunFPT0Cv6",
-    "MustBook4": "1km8-78Gm_Vcv1rgG-wXIzhGOu3eoefG4"
+    "Track/Cross Country": "1_nangpmm5RwhusoNTGNJmOeYvhpqagxd",
+    "Ultimate Frisbee": "1AoCKIlQLiZD-YEhbU3NTOO-LBtcSwvxS",
+    "Must Book A": "190dh7F-7Vf5G2Q0-58ScfPD2zIiOS2AR",
+    "Must Book B": "1PYY34VVmF9M43ueMCaWQAVD6P7G6F6qK",
+    "Must Book C": "1WHMzEHy82ueGdjLa7r26WwPunFPT0Cv6",
+    "Must Book D": "1km8-78Gm_Vcv1rgG-wXIzhGOu3eoefG4"
 };
 
 let historyStack = [];
@@ -313,7 +313,7 @@ function openAlbum(albumName) {
 function buildGrid(albumName) {
     const grid = document.getElementById("image-grid");
     grid.innerHTML="";
-    let count = albumName.startsWith("MustBook") ? 15 : 150;
+    let count = albumName.startsWith("Must Book") ? 15 : 150;
     for(let i=0;i<count;i++){
         const slot = document.createElement("div");
         slot.className="shimmer fade-in";
