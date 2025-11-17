@@ -1,3 +1,5 @@
+Current code
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -235,8 +237,29 @@ h1 {
 
     <!-- IMAGE GRID PAGE -->
     <div class="page" id="images-page">
-        <button class="upload-btn" onclick="promptUploadCode()">Upload Photo</button>
         <div id="image-grid" class="image-grid"></div>
+        
+    <!-- Upload Button and Keypad -->
+    <div id="upload-section" style="margin-top:10px;">
+        <button class="upload-btn" id="show-keypad-btn" disabled>Upload Photo</button>
+        <div id="keypad-container" style="display:none; margin-top:10px;">
+            <div id="keypad-display"></div>
+            <div id="keypad-buttons">
+                <button onclick="pressKey('1')">1</button>
+                <button onclick="pressKey('2')">2</button>
+                <button onclick="pressKey('3')">3</button>
+                <button onclick="pressKey('4')">4</button>
+                <button onclick="pressKey('5')">5</button>
+                <button onclick="pressKey('6')">6</button>
+                <button onclick="pressKey('7')">7</button>
+                <button onclick="pressKey('8')">8</button>
+                <button onclick="pressKey('9')">9</button>
+                <button onclick="pressKey('0')">0</button>
+                <button onclick="clearKeypad()">C</button>
+                <button onclick="submitKey()">OK</button>
+            </div>
+        </div>
+        <input type="file" id="photo-upload" multiple style="display:none;" accept="image/*">
     </div>
 </div>
 
@@ -268,6 +291,7 @@ const FOLDER_IDS = {
 
 let historyStack = [];
 let currentAlbum = "";
+let codeUnlocked = false;
 
 function updateTitle(album) {
     const title = `PWRS.PICS<br><span class="subtitle">${album.toUpperCase()}</span>`;
@@ -290,12 +314,18 @@ function openPage(pageId, albumName) {
 function goMain() {
     openPage('main-page','PORTFOLIO');
     historyStack = [];
+    document.getElementById("upload-section").style.display = "none";
 }
 
 function goBack() {
     historyStack.pop();
     const previous = historyStack.pop() || {pageId:'main-page', albumName:'PORTFOLIO'};
     openPage(previous.pageId, previous.albumName);
+
+    // Hide upload section if not on an album
+    if(previous.pageId !== "images-page") {
+        document.getElementById("upload-section").style.display = "none";
+    }
 }
 
 function openAlbum(albumName) {
@@ -308,11 +338,18 @@ function openAlbum(albumName) {
     historyStack.push({pageId:"images-page", albumName});
 
     buildGrid(albumName);
+
+    // SHOW upload button + keypad ONLY when inside album  
+    document.getElementById("upload-section").style.display = "block";
+
+    // 🔥 ADD THIS (upload button locked again when switching albums)
+    document.getElementById("show-keypad-btn").disabled = !codeUnlocked;
 }
 
-function buildGrid(albumName) {
+function buildGrid(albumName){
     const grid = document.getElementById("image-grid");
-    grid.innerHTML="";
+
+    grid.innerHTML = "";      // <-- KEEP THIS
     let count = albumName.startsWith("Must Book") ? 15 : 150;
     for(let i=0;i<count;i++){
         const slot = document.createElement("div");
@@ -326,38 +363,92 @@ function buildGrid(albumName) {
 
 // Photo Overlay
 function openPhotoOverlay(index){
+    // Create overlay
     const overlay = document.createElement('div');
-    overlay.className='photo-overlay';
-    overlay.style.display='flex';
-    overlay.onclick = e => { if(e.target===overlay) document.body.removeChild(overlay); };
+    overlay.className = 'photo-overlay';
+    overlay.style.display = 'flex';
+    
+    // Prevent accidental clicks on overlay itself
+    overlay.addEventListener('click', (e) => {
+        if(e.target === overlay) closeOverlay();
+    });
 
+    // Create inner box
     const box = document.createElement('div');
-    box.className='photo-message';
+    box.className = 'photo-message';
 
     if(!window.imageUrls || !window.imageUrls[index]){
-        box.innerText="Photo Unavailable";
-        const closeBtn=document.createElement('button');
-        closeBtn.className='close-photo-btn';
-        closeBtn.innerText='Close';
-        closeBtn.onclick=()=>document.body.removeChild(overlay);
-        box.appendChild(closeBtn);
+        box.innerText = "Photo Unavailable";
     } else {
         const img = document.createElement('img');
-        img.src=window.imageUrls[index];
-        img.style.width="100%";
-        img.style.borderRadius="8px";
+        img.src = window.imageUrls[index];
+        img.style.width = "100%";
+        img.style.borderRadius = "8px";
         box.appendChild(img);
     }
 
+    // Close button
+    const closeBtn = document.createElement('button');
+    closeBtn.className = 'close-photo-btn';
+    closeBtn.innerText = 'Close';
+    closeBtn.onclick = closeOverlay;
+
+    box.appendChild(closeBtn);
     overlay.appendChild(box);
     document.body.appendChild(overlay);
+
+    // Disable page interactions except overlay
+    document.body.style.pointerEvents = 'none';
+    overlay.style.pointerEvents = 'auto';
+
+    // Fade-in animation
+    overlay.style.opacity = 0;
+    requestAnimationFrame(() => {
+        overlay.style.transition = 'opacity 0.3s';
+        overlay.style.opacity = 1;
+    });
+
+    // Function to close overlay
+    function closeOverlay() {
+        overlay.style.opacity = 0;
+        setTimeout(() => {
+            if(document.body.contains(overlay)) document.body.removeChild(overlay);
+            document.body.style.pointerEvents = 'auto';
+        }, 300);
+    }
 }
 
 // Google Drive API
-function gapiInit(){
-    gapi.load('client:auth2', () => {
-        gapi.client.init({apiKey:API_KEY,clientId:CLIENT_ID,discoveryDocs:["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"],scope:"https://www.googleapis.com/auth/drive.file"});
+let gapiInitialized = false;
+
+function initGapi() {
+    return new Promise((resolve, reject) => {
+        if (gapiInitialized) return resolve();
+
+        gapi.load('client:auth2', () => {
+            gapi.client.init({
+                apiKey: API_KEY,
+                clientId: CLIENT_ID,
+                discoveryDocs: ["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"],
+                scope: "https://www.googleapis.com/auth/drive.file"
+            }).then(() => {
+                gapiInitialized = true;
+                resolve();
+            }).catch(err => reject(err));
+        });
     });
+}
+
+window.onload = () => {
+    initGapi().then(() => console.log("GAPI ready"));
+};
+    function ensureSignedIn() {
+    const authInstance = gapi.auth2.getAuthInstance();
+    if (!authInstance.isSignedIn.get()) {
+        // Prompts the user to sign in if they aren’t
+        return authInstance.signIn();
+    }
+    return Promise.resolve(); // Already signed in
 }
 
 function loadImagesFromDrive(albumName){
@@ -365,7 +456,7 @@ function loadImagesFromDrive(albumName){
     const folderId=FOLDER_IDS[albumName];
     if(!folderId) return;
 
-    gapiInit();
+    initGapi().then(() => {
     gapi.client.load('drive', 'v3', () => {
         gapi.client.drive.files.list({
             q:`'${folderId}' in parents and mimeType contains 'image/' and trashed=false`,
@@ -383,40 +474,77 @@ function loadImagesFromDrive(albumName){
             });
         });
     });
-}
-
-// Upload with code
-function promptUploadCode(){
-    const code = prompt("Enter Upload Code:");
-    if(code==="6826830") document.getElementById("file-upload").click();
-    else alert("Incorrect code");
+});
 }
 
 function handleFileUpload(files){
     if(!files.length) return;
-    const folderId=FOLDER_IDS[currentAlbum];
-    Array.from(files).forEach(file=>{
-        const metadata={name:file.name,parents:[folderId]};
-        const accessToken=gapi.auth.getToken().access_token;
-        const form = new FormData();
-        form.append("metadata", new Blob([JSON.stringify(metadata)],{type:"application/json"}));
-        form.append("file", file);
-        fetch("https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id",{
-            method:"POST",
-            headers:new Headers({Authorization:"Bearer "+accessToken}),
-            body:form
-        }).then(()=>{buildGrid(currentAlbum);});
+    const folderId = FOLDER_IDS[currentAlbum];
+
+    ensureSignedIn().then(() => {
+        const accessToken = gapi.auth.getToken().access_token;
+
+        Array.from(files).forEach(file => {
+            const metadata = { name: file.name, parents: [folderId] };
+            const form = new FormData();
+            form.append("metadata", new Blob([JSON.stringify(metadata)], {type:"application/json"}));
+            form.append("file", file);
+
+            fetch("https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id", {
+                method: "POST",
+                headers: new Headers({ Authorization: "Bearer " + accessToken }),
+                body: form
+            }).then(() => {
+                buildGrid(currentAlbum);
+            });
+        });
+    }).catch(err => {
+        alert("Failed to sign in: " + err.error);
     });
 }
 
-// Hidden file input
-const fileInput=document.createElement("input");
-fileInput.type="file";
-fileInput.multiple=true;
-fileInput.style.display="none";
-fileInput.id="file-upload";
-fileInput.onchange = e=>handleFileUpload(e.target.files);
-document.body.appendChild(fileInput);
+// Keypad for Upload Code
+const correctCode = "6826830";
+let enteredCode = "";
+
+document.getElementById("show-keypad-btn").addEventListener("click", () => {
+    document.getElementById("keypad-container").style.display = "block";
+});
+
+function clearKeypad() {
+    enteredCode = "";
+    document.getElementById("keypad-display").innerText = "";
+}
+
+function pressKey(num) {
+    enteredCode += num;
+    document.getElementById("keypad-display").innerText = "*".repeat(enteredCode.length);
+}
+  
+
+function submitKey() {
+    if (enteredCode === correctCode) {
+
+        // 🔥 Unlocks uploads
+        codeUnlocked = true;
+        document.getElementById("show-keypad-btn").disabled = false;
+
+        document.getElementById("photo-upload").click();
+        enteredCode = "";
+        document.getElementById("keypad-container").style.display = "none";
+        document.getElementById("keypad-display").innerText = "";
+        document.getElementById("photo-upload").value = "";
+    } else {
+        alert("Incorrect code!");
+        clearKeypad();
+    }
+}
+
+// Trigger Google Drive upload from keypad
+document.getElementById("photo-upload").addEventListener("change", (event) => {
+    const files = event.target.files;
+    handleFileUpload(files); // Uses your existing Google Drive upload function
+});
 
 </script>
 </body>
